@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-lang-key="page_title">會員方案 - 廖嘉泰の會員管理系統</title>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="top-bar">
+       <div class="header">
+    <a href="index.html">
+        <h1 data-lang-key="header_title" data-aos="fade-down">💎會員方案總覽</h1>
+        <p data-lang-key="header_subtitle" data-aos="fade-down" data-aos-delay="100">查看所有可用的會員等級</p>
+    </a>
+</div>
+
+        <div class="user-section">
+            <div class="lang-switcher">
+                <button class="btn-lang" onclick="setLanguage('en')">English</button>
+                <span style="color: white; margin: 0 5px;">|</span>
+                <button class="btn-lang active" onclick="setLanguage('zh')">中文</button>
+            </div>
+            </div>
+    </div>
+
+    <div class="card">
+        <div class="tier-grid">
+
+            <div class="tier-group">
+                <div class="member-tier-card tier-legend" data-aos="flip-left" data-aos-delay="100">
+                    <h2 data-lang-key="legend_title">🔥 傳說會員</h2>
+                    <p>
+                        <span data-lang-key="legend_desc">尊爵不凡的頂級會員，享受所有專屬權益。</span>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li data-lang-key="legend_b1"><b>一次連續5把</b></li>
+                            <li data-lang-key="legend_b2"><b>5次/月 插隊額度</b></li>
+                            <li data-lang-key="legend_b3"><b>偶爾專屬同樂場</b></li>
+                        </ul>
+                    </p>
+                    
+                    <div class="price-section">
+                        <div class="price-grid">
+                            <div class="price-box">
+                                <div class="price">NT$200</div>
+                                <div class="duration" data-lang-key="duration_1">1個月 (30天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$580</div>
+                                <div class="duration" data-lang-key="duration_2">3個月 (90天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$950</div>
+                                <div class="duration" data-lang-key="duration_3">5個月 (150天)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-list-box tier-legend-list" data-aos="fade-up" data-aos-delay="150">
+                    <h4 data-lang-key="legend_list_title">🔥 傳說會員名單</h4>
+                    <div class="member-list-container" id="legend-members">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-group">
+                <div class="member-tier-card tier-diamond" data-aos="flip-left" data-aos-delay="200">
+                    <h2 data-lang-key="diamond_title">💎 鑽石會員</h2>
+                    <p>
+                        <span data-lang-key="diamond_desc">進階會員方案，解鎖更多獨特福利。</span>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li data-lang-key="diamond_b1"><b>一次連續3把</b></li>
+                            <li data-lang-key="diamond_b2"><b>2次/月 插隊額度</b></li>
+                        </ul>
+                    </p>
+
+                    <div class="price-section">
+                        <div class="price-grid">
+                            <div class="price-box">
+                                <div class="price">NT$100</div>
+                                <div class="duration" data-lang-key="duration_1">1個月 (30天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$280</div>
+                                <div class="duration" data-lang-key="duration_2">3個月 (90天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$450</div>
+                                <div class="duration" data-lang-key="duration_3">5個月 (150天)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-list-box tier-diamond-list" data-aos="flip-left" data-aos-delay="250">
+                    <h4 data-lang-key="diamond_list_title">💎 鑽石會員名單</h4>
+                    <div class="member-list-container" id="diamond-members">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-group">
+                <div class="member-tier-card tier-gold" data-aos="flip-left" data-aos-delay="300">
+                    <h2 data-lang-key="gold_title">💛 黃金會員</h2>
+                    <p>
+                        <span data-lang-key="gold_desc">標準會員方案，開始您的會員之旅。</span>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li data-lang-key="gold_b1"><b>一次連續3把</b></li>
+                        </ul>
+                    </p>
+
+                    <div class="price-section">
+                        <div class="price-grid">
+                            <div class="price-box">
+                                <div class="price">NT$60</div>
+                                <div class="duration" data-lang-key="duration_1">1個月 (30天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$160</div>
+                                <div class="duration" data-lang-key="duration_2">3個月 (90天)</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price">NT$250</div>
+                                <div class="duration" data-lang-key="duration_3">5個月 (150天)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-list-box tier-gold-list" data-aos="flip-left" data-aos-delay="350">
+                    <h4 data-lang-key="gold_list_title">💛 黃金會員名單</h4>
+                    <div class="member-list-container" id="gold-members">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="css/member.css" />
+<script src="js/member.js"></script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+<script>
+  // 初始化 AOS 進場動畫
+  AOS.init({
+    duration: 800, // 動畫時間
+    once: true,    // 只播放一次
+    offset: 50     // 觸發距離
+  });
+
+  // 初始化 Vanilla-tilt 3D 效果
+  VanillaTilt.init(document.querySelectorAll(".member-tier-card"), {
+    max: 15,      // 最大傾斜角度
+    speed: 400,   // 跟隨速度
+    glare: true,  // 開啟反光
+    "max-glare": 0.5, // 反光強度
+  });
+</script>
+
+</body>
+</html>
