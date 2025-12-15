@@ -1463,4 +1463,45 @@ small {
 /* 確保標題文字保持粗體與字型 */
 .header a h1 {
     margin-bottom: 5px; /* 保持原本間距 */
+
+}
+/* =========================================
+   ▼▼▼ 修復：後台「系統備份」白底問題 ▼▼▼
+   ========================================= */
+
+/* 1. 針對備份資訊區塊 */
+.backup-info {
+    /* 強制改成深色半透明背景 */
+    background: rgba(0, 0, 0, 0.5) !important; 
+    
+    /* 加上螢光綠的科技感邊框 */
+    border: 1px solid rgba(57, 255, 20, 0.3) !important;
+    border-left: 4px solid #39ff14 !important; /* 左側亮條 */
+    
+    /* 文字顏色 */
+    color: #fff !important; 
+    
+    /* 增加一點綠色光暈 */
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.1) !important;
+}
+
+/* 2. 針對裡面的標題文字 (例如：上次備份時間) */
+.backup-info strong {
+    color: #39ff14 !important; /* 螢光綠文字 */
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.6);
+    margin-right: 10px;
+}
+
+/* =========================================
+   ▼▼▼ 額外修復：後台所有可能的殘留白底 ▼▼▼
+   ========================================= */
+
+/* 針對 JS 裡面可能寫死的 style="background: #f9f9f9" */
+/* 這會把所有淺灰底的提示框都變成深色 */
+.card div[style*="background: #f9f9f9"],
+.card div[style*="background:#f9f9f9"],
+.empty-state {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: #aaa !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
