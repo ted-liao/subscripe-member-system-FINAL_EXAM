@@ -60,29 +60,41 @@ body {
     align-items: center;
 }
 
+/* 語言切換容器 */
 .lang-switcher {
-    display: flex;
+    display: flex !important;    /* 強制橫向排列 */
+    flex-direction: row !important;
     align-items: center;
+    gap: 10px;                  /* 兩個按鈕中間的間距 */
+    white-space: nowrap;        /* 強制文字不換行 */
     margin-right: 15px;
 }
+
+/* 語言按鈕樣式 */
 .btn-lang {
     background: none;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* 加上細邊框比較好看 */
     color: white;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     opacity: 0.7;
-    transition: opacity 0.3s;
-    padding: 5px;
+    transition: all 0.3s;
+    padding: 4px 10px !important; /* 增加一點點內距 */
+    border-radius: 4px;
+    display: inline-block;      /* 確保它是行內區塊 */
 }
+
 .btn-lang:hover {
     opacity: 1;
+    border-color: #00f3ff !important;
 }
+
 .btn-lang.active {
     opacity: 1;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: #00f3ff;
+    border-color: #00f3ff !important;
+    background: rgba(0, 243, 255, 0.1); /* 選中時有個淡淡的底色 */
 }
 a.btn {
     text-decoration: none;
@@ -514,22 +526,20 @@ a.tab:hover {
 }
 
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
+    position: fixed; /* 關鍵：改為 fixed 才會鎖定在螢幕視窗中 */
     top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    height: 100vh; /* 使用視窗高度 */
+    display: none;
+    z-index: 1000;
+    background: rgba(0,0,0,0.8);
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
 }
-
 .modal.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; /* 使用 flex 配合上面的 center 屬性 */
 }
-
 .modal-content {
     background-color: white;
     padding: 30px;

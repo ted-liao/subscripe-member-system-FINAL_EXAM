@@ -47,29 +47,41 @@ body {
     align-items: center;
 }
 
+/* 語言切換容器 */
 .lang-switcher {
-    display: flex;
+    display: flex !important;    /* 強制橫向排列 */
+    flex-direction: row !important;
     align-items: center;
+    gap: 10px;                  /* 兩個按鈕中間的間距 */
+    white-space: nowrap;        /* 強制文字不換行 */
     margin-right: 15px;
 }
+
+/* 語言按鈕樣式 */
 .btn-lang {
     background: none;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* 加上細邊框比較好看 */
     color: white;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     opacity: 0.7;
-    transition: opacity 0.3s;
-    padding: 5px;
+    transition: all 0.3s;
+    padding: 4px 10px !important; /* 增加一點點內距 */
+    border-radius: 4px;
+    display: inline-block;      /* 確保它是行內區塊 */
 }
+
 .btn-lang:hover {
     opacity: 1;
+    border-color: #00f3ff !important;
 }
+
 .btn-lang.active {
     opacity: 1;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: #00f3ff;
+    border-color: #00f3ff !important;
+    background: rgba(0, 243, 255, 0.1); /* 選中時有個淡淡的底色 */
 }
 a.btn {
     text-decoration: none;
@@ -674,40 +686,46 @@ a.btn {
     50% { opacity: 0.5; }
 }
 
+/* --- 手機版 RWD 適配修正 --- */
 @media (max-width: 768px) {
-    .header h1 {
-        font-size: 1.8em;
+    /* 1. 強制讓頂部容器可以換行，避免擠在一起 */
+    .header {
+        display: flex !important;
+        flex-direction: column !important; /* 改為上下排列：標題在上，按鈕在下 */
+        align-items: flex-start !important;
+        height: auto !important;           /* 讓高度隨內容增長 */
+        padding-bottom: 15px !important;
+        gap: 10px !important;
     }
 
-    .card {
-        padding: 20px;
-    }
-
-    .tabs {
-        flex-direction: column;
-    }
-
-    .tab {
-        width: 100%;
-    }
-
-    .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
+    /* 2. 讓右側按鈕區塊佔滿寬度，並處理內部的排列 */
     .user-section {
-        width: 100%;
-        flex-wrap: wrap; 
+        display: flex !important;
+        flex-wrap: wrap !important;       /* 空間不足時自動換行 */
+        width: 100% !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
     }
 
+    /* 3. 確保語言切換按鈕維持橫向 */
+    .lang-switcher {
+        display: flex !important;
+        flex-direction: row !important;   /* 強制橫向 */
+        gap: 5px !important;
+        margin-right: 0 !important;       /* 移除右邊距，手機版靠左 */
+    }
+
+    /* 4. 縮小身分標籤，避免佔據太多空間 */
     .user-info {
-        width: 100%;
-        justify-content: center;
+        padding: 5px 10px !important;
+        font-size: 0.85em !important;
+        border-radius: 4px !important;    /* 配合您的電競風格 */
     }
 
-    .sub-tabs {
-        flex-wrap: wrap;
+    /* 5. 確保標題文字不會溢出 */
+    .header h1 {
+        font-size: 1.4em !important;
+        white-space: normal !important;   /* 允許長標題換行 */
     }
 }
 /* 主要內容區塊：改成半透明黑底 + 模糊濾鏡 */
@@ -1610,35 +1628,92 @@ input[type="date"] {
     .admin-wrapper {
         flex-direction: column;
     }
-    
+
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        flex-direction: row;
-        overflow-x: auto; /* 橫向捲動 */
-        padding: 10px;
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 15px !important;
         border-right: none;
-        border-bottom: 1px solid #333;
-        white-space: nowrap;
-    }
-    
-    .sidebar h2 {
-        display: none; /* 手機版隱藏標題，省空間 */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(10, 10, 15, 0.98);
     }
 
+    /* 1. 修正大標與身分欄 */
+    .header {
+        flex-direction: column !important; /* 讓標題與身分欄垂直排列 */
+        align-items: flex-start !important;
+        gap: 15px !important;
+        white-space: normal !important; /* 允許換行 */
+    }
+
+    /* 確保右上角的身分欄 (User Section) 不會超出 */
+    .user-section {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        flex-wrap: wrap; /* 內容過長自動換行 */
+    }
+
+    .sidebar h2 {
+        display: block !important;
+        font-size: 1.2em !important;
+        margin-bottom: 15px !important;
+        text-align: center;
+    }
+
+    /* 2. 修正賽季日期設定 */
+    /* 針對 ID 為 seasonStartDate 和 seasonEndDate 的容器 */
+    #tab-boosting .card div[style*="display: grid"] {
+        grid-template-columns: 1fr !important; /* 強制改為單欄排列 */
+        gap: 10px !important;
+    }
+
+    .input-group {
+        width: 100% !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 導航按鈕樣式調整 */
     .nav-btn {
-        padding: 8px 15px !important;
-        font-size: 0.9em;
-        margin-bottom: 0;
-        margin-right: 10px;
-        background: rgba(255,255,255,0.05);
-        border-radius: 20px !important;
+        width: 100% !important;
+        margin-bottom: 8px !important;
+        justify-content: center !important;
     }
 
     .main-content {
-        margin-left: 0;
-        padding: 20px;
+        margin-left: 0 !important;
+        padding: 15px !important;
+        width: 100% !important;
+        overflow-x: hidden; /* 防止內容撐開頁面 */
+    }
+
+    /* 表格滾動優化 */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+    }
+    /* 針對「基礎價格」與「權重設定」的標題欄位 */
+    /* 選擇所有 card 內包含 h2 和 button 的容器 */
+    .card > div[style*="display:flex"] {
+        flex-direction: column !important; /* 強制改為上下排列 */
+        align-items: flex-start !important; /* 按鈕對齊左側 */
+        gap: 12px !important; /* 標題與按鈕中間留點間距 */
+    }
+
+    /* 讓按鈕在手機版稍微寬一點比較好按 */
+    .card > div[style*="display:flex"] .btn-small {
+        width: 100% !important; /* 讓按鈕佔滿寬度 */
+        text-align: center;
+        padding: 10px !important;
+    }
+
+    /* 讓標題文字不要換行，確保整齊 */
+    .card h2 {
+        white-space: nowrap !important;
+        font-size: 1.2rem !important;
     }
 }
 /* --- 左上角標題連結樣式 --- */
