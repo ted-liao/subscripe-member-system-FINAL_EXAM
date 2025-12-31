@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="page_title">管理後台 - 廖嘉泰の會員管理系統</title>
+
+    <link rel="stylesheet" href="css/admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+</div>
+
+<div class="admin-wrapper" style="display: none;">
+    <div class="sidebar">
+        <a href="index.html" class="sidebar-title-link" title="點擊返回前台首頁">
+            <h2>⚙️ 管理後台</h2>
+        </a>
+
+        <button class="nav-btn active" onclick="switchTab('audience')">👥 觀眾管理</button>
+        <button class="nav-btn" onclick="switchTab('boosting')">📈 上分管理</button>
+        
+        <div style="flex: 1;"></div>
+        <button class="nav-btn" onclick="logout()" style="color: #ff4757 !important; border-color: #ff4757 !important;">🚪 登出系統</button>
+    </div>
+
+    <div class="main-content">
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 20px;">
+            <div>
+                <h1 style="font-size: 1.8em; margin: 0;">管理員控制台</h1>
+                <p style="color: #aaa; margin: 5px 0;">歡迎回來，管理員</p>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="lang-switcher">
+                    <button class="btn-lang active" onclick="setLanguage('zh')">中文</button>
+                    <button class="btn-lang" onclick="setLanguage('en')">English</button>
+                </div>
+                <div id="userSection" class="user-section"></div>
+            </div>
+        </div>
+
+        <!-- 觀眾管理分頁 -->
+        <div id="tab-audience" class="tab-content active">
+            <div class="admin-grid">
+                <div class="card" data-aos="fade-up">
+                    <h2 data-lang-key="session_control_title">🎮 遊戲場次控制</h2>
+                    <div id="currentGameSession"></div>
+                    <div class="input-group">
+                        <label>場次名稱</label>
+                        <input type="text" id="sessionGameName" placeholder="CODM 會員場">
+                    </div>
+                    <div class="input-group">
+                        <label>預計開始時間 <span class="optional">(選填)</span></label>
+                        <input type="datetime-local" id="sessionStartTime">
+                    </div>
+                    <div class="input-group">
+                        <label>名額</label>
+                        <input type="number" id="sessionSlots" value="10">
+                    </div>
+                    <div class="input-group">
+                        <label>描述 <span class="optional">(選填)</span></label>
+                        <input type="text" id="sessionDescription" placeholder="地圖/規則...">
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn" onclick="createGameSession()" style="flex: 1;">🚀 開啟/預約</button>
+                        <button class="btn btn-danger" onclick="closeGameSession()" style="flex: 1;">❌ 關閉</button>
+                    </div>
+                </div>
+
+                <div class="card" data-aos="fade-up" data-aos-delay="100">
+                    <h2 data-lang-key="queue_list_title">👥 目前排隊名單</h2>
+                    <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <span id="queueCount">讀取中...</span>
+                        <button class="btn btn-danger btn-small" onclick="clearQueue()">清空名單</button>
+                    </div>
+                    <div class="list-container" id="adminQueueList"></div>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" style="margin-top: 20px;">
+                <h2 data-lang-key="code_admin_title">🔑 兌換碼管理</h2>
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="showCodeSubTab('generate')">產生新碼</button>
+                    <button class="sub-tab" onclick="showCodeSubTab('unused')">未使用 (<span id="unusedCodeCount">0</span>)</button>
+                    <button class="sub-tab" onclick="showCodeSubTab('used')">已使用 (<span id="usedCodeCount">0</span>)</button>
+                </div>
+                <div id="generate" class="sub-page active">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div class="input-group">
+                            <label>會員等級</label>
+                            <select id="codeLevel">
+                                <option value="gold">💛 黃金會員</option>
+                                <option value="diamond">💎 鑽石會員</option>
+                                <option value="legend">🔥 傳說會員</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>天數</label>
+                            <input type="number" id="codeDays" value="30">
+                        </div>
+                        <div class="input-group">
+                            <label>數量</label>
+                            <input type="number" id="codeAmount" value="1">
+                        </div>
+                    </div>
+                    <button class="btn" onclick="generateCode()" style="margin-top: 15px; width: 100%;">產生兌換碼</button>
+                    <div id="generatedCodesList" style="margin-top: 20px;"></div>
+                </div>
+                <div id="unused" class="sub-page"><div class="list-container" id="unusedCodeList"></div></div>
+                <div id="used" class="sub-page"><div class="list-container" id="usedCodeList"></div></div>
+            </div>
+
+            <div class="card" data-aos="fade-up" style="margin-top: 20px;">
+                <h2 data-lang-key="member_admin_title">🧑‍🤝‍🧑 會員管理</h2>
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="showMemberSubTab('active')">生效中 (<span id="activeMemberCount">0</span>)</button>
+                    <button class="sub-tab" onclick="showMemberSubTab('expired')">已到期 (<span id="expiredMemberCount">0</span>)</button>
+                </div>
+                <div id="activeMembers" class="sub-page active"><div class="list-container" id="activeMemberList"></div></div>
+                <div id="expiredMembers" class="sub-page"><div class="list-container" id="expiredMemberList"></div></div>
+            </div>
+
+            <div class="card" data-aos="fade-up" style="margin-top: 20px;">
+                <h2>📈 系統備份</h2>
+                <div class="backup-info" id="backupInfo"></div>
+                <button class="btn btn-success" onclick="exportToExcel()">🗂️ 立即導出 Excel 備份</button>
+            </div>
+        </div>
+
+        <!-- 上分管理分頁 -->
+        <div id="tab-boosting" class="tab-content">
+            <div class="card" data-aos="fade-up">
+                <h2 style="color: #FFD700; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 20px;">📅 賽季設定</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                    <div class="input-group">
+                        <label>賽季開始日期</label>
+                        <input type="date" id="seasonStartDate" onchange="updateSeasonStatusDisplay()">
+                    </div>
+                    <div class="input-group">
+                        <label>賽季結束日期</label>
+                        <input type="date" id="seasonEndDate" onchange="updateSeasonStatusDisplay()">
+                    </div>
+                </div>
+                <div id="seasonStatusDisplay" class="card" style="background: rgba(0, 243, 255, 0.1); border: 1px solid #00f3ff; text-align: center; margin-bottom: 20px; display: none;">
+                    <strong style="font-size: 1.2em; color: #00f3ff;">🏆 目前進度：<span id="currentWeekText">計算中...</span></strong>
+                    <div style="font-size: 0.9em; color: #aaa; margin-top: 5px;" id="seasonDateRangeText"></div>
+                </div>
+                <button class="btn btn-success" onclick="saveSeasonConfig()">💾 儲存日期設定</button>
+            </div>
+
+            <div class="card" data-aos="fade-up" style="margin-top: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h2 style="color: #00f3ff; margin:0;">💰 基礎價格 (Base Prices)</h2>
+                    <button class="btn btn-success btn-small" onclick="saveBasePrices()">💾 儲存設定</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table config-table">
+                        <thead>
+                            <tr>
+                                <th>服務類型</th>
+                                <th>大師</th>
+                                <th>宗師</th>
+                                <th>傳奇(10000-)</th>
+                                <th>萬分(10000+)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color: #00f3ff; font-weight:bold;">⚡ 代打 (Boost)</td>
+                                <td><input type="number" id="base_boost_master"></td>
+                                <td><input type="number" id="base_boost_grandmaster"></td>
+                                <td><input type="number" id="base_boost_legend"></td>
+                                <td><input type="number" id="base_boost_mythical"></td>
+                            </tr>
+                            <tr>
+                                <td style="color: #bd00ff; font-weight:bold;">🛡️ 護航 (Carry)</td>
+                                <td><input type="number" id="base_carry_master"></td>
+                                <td><input type="number" id="base_carry_grandmaster"></td>
+                                <td><input type="number" id="base_carry_legend"></td>
+                                <td><input type="number" id="base_carry_mythical"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" data-aos="fade-up" style="margin-top: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h2 style="color: #bd00ff; margin:0;">⚖️ 賽季權重 & 效率</h2>
+                    <button class="btn btn-success btn-small" onclick="saveWeights()">💾 儲存資料</button>
+                </div>
+                <p style="color:#aaa; font-size:0.9em; margin-bottom:15px;">
+                    設定每週的價格倍率與時薪效率。<br>
+                    <span style="color:#ff4757;">注意：若設定為 0，前台將顯示為「不開放」。</span>
+                </p>
+                <div class="table-responsive">
+                    <table class="data-table config-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="width: 80px; vertical-align: middle;">週次</th>
+                                <th colspan="4" style="color: #00f3ff; border-bottom: 2px solid rgba(0, 243, 255, 0.3); text-align: center;">⚡ 代打 (Boost)</th>
+                                <th colspan="4" style="color: #bd00ff; border-bottom: 2px solid rgba(189, 0, 255, 0.3); text-align: center;">🛡️ 護航 (Carry)</th>
+                            </tr>
+                            <tr>
+                                <th style="font-size:0.8em; color:#88ffff; text-align: center;">大師</th>
+                                <th style="font-size:0.8em; color:#88ffff; text-align: center;">宗師</th>
+                                <th style="font-size:0.8em; color:#88ffff; text-align: center;">傳奇(10000-)</th>
+                                <th style="font-size:0.8em; color:#88ffff; text-align: center;">萬分(10000+)</th>
+                                <th style="font-size:0.8em; color:#eebbff; text-align: center;">大師</th>
+                                <th style="font-size:0.8em; color:#eebbff; text-align: center;">宗師</th>
+                                <th style="font-size:0.8em; color:#eebbff; text-align: center;">傳奇(10000-)</th>
+                                <th style="font-size:0.8em; color:#eebbff; text-align: center;">萬分(10000+)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="weightsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 登入Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="loginModalTitle">管理員登入</h2>
+        </div>
+        <div class="input-group">
+            <label>使用者名稱</label>
+            <input type="text" id="loginUsername" placeholder="請輸入使用者名稱">
+        </div>
+        <div class="input-group">
+            <label>密碼</label>
+            <input type="password" id="loginPassword" placeholder="請輸入密碼">
+        </div>
+        <button class="btn" onclick="login()" style="width: 100%;">登入</button>
+    </div>
+</div>
+
+<!-- 編輯會員Modal -->
+<div id="editMemberModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>編輯會員</h2>
+            <button class="modal-close" onclick="closeEditMemberModal()">×</button>
+        </div>
+        <div id="editMemberContent"></div>
+    </div>
+</div>
+
+<!-- 更改密碼Modal -->
+<div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>更改密碼</h2>
+            <button class="modal-close" onclick="closeChangePasswordModal()">×</button>
+        </div>
+        <div class="input-group">
+            <label>目前密碼</label>
+            <input type="password" id="currentPassword">
+        </div>
+        <div class="input-group">
+            <label>新密碼</label>
+            <input type="password" id="changeNewPassword">
+        </div>
+        <div class="input-group">
+            <label>確認新密碼</label>
+            <input type="password" id="changeConfirmPassword">
+        </div>
+        <button class="btn" onclick="changePassword()" style="width: 100%;">確認更改</button>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init({ duration: 800, once: true, offset: 50 });</script>
+</body>
+</html>
