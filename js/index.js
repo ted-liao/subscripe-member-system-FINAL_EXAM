@@ -1123,9 +1123,15 @@ function showPage(pageName) {
 }
 
 // Modal 控制
-function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
+function openLoginModal() { 
+    closeRegisterModal(); // 開啟登入前先關閉註冊
+    document.getElementById('loginModal').classList.add('active'); 
+}
 function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); document.getElementById('loginUsername').value = ''; document.getElementById('loginPassword').value = ''; }
-function openRegisterModal() { document.getElementById('registerModal').classList.add('active'); }
+function openRegisterModal() { 
+    closeLoginModal();    // 開啟註冊前先關閉登入
+    document.getElementById('registerModal').classList.add('active'); 
+}
 function closeRegisterModal() { 
     document.getElementById('registerModal').classList.remove('active'); 
     document.getElementById('regActivationCode').value = '';
