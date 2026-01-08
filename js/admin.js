@@ -1495,10 +1495,10 @@ function updateUserSection() {
 
     if (currentUser && currentUser.isAdmin) {
         userSection.innerHTML = `
-            <div class="user-info" style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">
-                <span class="name" style="color: white; font-weight: bold;">👤 ${currentUser.nickname}</span>
-                <span class="badge badge-admin" style="font-size: 0.8em; margin: 0;">${trans.member_admin}</span>
-            </div>
+            <button class="user-info-btn" id="userInfoBtn" onclick="openChangePasswordModal()">
+                <span class="user-name">${currentUser.nickname}</span>
+                <span class="user-role">${trans.member_admin}</span>
+            </button>
         `;
     } else {
         userSection.innerHTML = `<button class="btn btn-small" onclick="openLoginModal()">${trans.login}</button>`;
