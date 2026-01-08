@@ -628,8 +628,9 @@ async function showMemberInfo() {
         const levelKey = currentUser.level === 'legend' ? 'level_legend' :
             currentUser.level === 'diamond' ? 'level_diamond' : 'level_gold';
         const levelText = trans[levelKey];
-        const badgeClass = currentUser.level === 'legend' ? 'badge-legend' :
-            currentUser.level === 'diamond' ? 'badge-diamond' : 'badge-gold';
+        const badgeClass = currentUser.isAdmin ? 'badge-admin' : 
+                          (currentUser.level === 'legend' ? 'badge-legend' : 
+                          (currentUser.level === 'diamond' ? 'badge-diamond' : 'badge-gold'));
         const platformText = currentUser.platform === 'tiktok' ? 'TikTok' : 'YouTube';
         const timeObj = secondsToTime(currentUser.remainingSeconds);
         const timeClass = getTimeColorClass(currentUser.remainingSeconds);
@@ -637,10 +638,19 @@ async function showMemberInfo() {
         const codeSnapshot = await database.ref('activationCodes/' + currentUser.activationCode).once('value');
         const codeData = codeSnapshot.val();
         const codeTimeObj = codeData ? secondsToTime(codeData.seconds) : null;
+	const displayLevelName = currentUser.isAdmin ? '系統管理員' : trans['level_' + currentUser.level];
 
         content.innerHTML = `
 <div class="member-info">
-    <h2>👤 ${currentUser.nickname}</h2>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <h2>👤 ${currentUser.nickname}</h2>
+        
+        ${currentUser.isAdmin ? `
+            <a href="admin.html" class="admin-gear-btn" title="進入管理後台">
+                <span style="font-size: 24px;">⚙️</span>
+            </a>
+        ` : ''}
+    </div>
     <div class="info-item">
         <span>${trans.member_platform}</span>
         <span>${platformText}</span>
@@ -699,7 +709,6 @@ async function showMemberInfo() {
         hideLoading();
     }
 }
-
 // --- [新增] 智慧報價計算機邏輯 ---
 function initCalculator() {
     database.ref('calculatorConfig').on('value', (snapshot) => {
@@ -1024,104 +1033,102 @@ function renderPricingTables() {
     }
 }
 
-function contactService() {
-    const price = document.getElementById('finalPrice').textContent;
-    if (price === "---" || price === "0") return;
-
-    const type = currentServiceType === 'boost' ? 'Ted代打' : '尊榮護航';
-    const score = `${document.getElementById('currentScore').value} -> ${document.getElementById('targetScore').value}`;
-    const breakdown = document.getElementById('calcBreakdown').innerText;
-    
-    const msg = `嗨！我想預約 ${type} \n分數：${score} \n預估價格：$${price}\n\n${breakdown}`;
-    
-    navigator.clipboard.writeText(msg).then(() => {
-        alert(`已複製預約訊息！請傳送給主播：\n\n${msg}`);
-    }).catch(() => {
-        alert("複製失敗，請手動截圖傳送");
-    });
-}
-
+// --- [更新右上角用戶資訊] ---
 function updateUserSection() {
     const userSection = document.getElementById('userSection');
-    const lang = getCurrentLang();
-    const trans = translations[lang];
-    const langSwitcher = userSection.querySelector('.lang-switcher');
+    if (!userSection) return;
+
+    // 1. 統一顯示名稱 (不包含重複圖示的邏輯)
+    const levelMap = {
+        'gold': '💛 黃金會員',
+        'diamond': '💎 鑽石會員',
+        'legend': '🔥 傳說會員',
+        'admin': '⚙️ 系統管理員'
+    };
+
+    const currentLang = getCurrentLang();
+    
+    // 2. 這裡使用 "=" 而不是 "+="，確保每次執行都是從頭開始，不會疊加舊的內容
+    let html = `
+        <div class="lang-switcher">
+            <button class="btn-lang ${currentLang === 'en' ? 'active' : ''}" onclick="setLanguage('en')">EN</button>
+            <button class="btn-lang ${currentLang === 'zh' ? 'active' : ''}" onclick="setLanguage('zh')">中</button>
+        </div>
+    `;
 
     if (currentUser) {
-        const levelText = currentUser.level === 'legend' ? trans.level_legend_simple :
-            currentUser.level === 'diamond' ? trans.level_diamond_simple : trans.level_gold_simple;
-        const levelClass = currentUser.level === 'legend' ? 'badge-legend' :
-            currentUser.level === 'diamond' ? 'badge-diamond' : 'badge-gold';
+        const userLevelKey = currentUser.isAdmin ? 'admin' : (currentUser.level || 'free');
+        const displayLevel = levelMap[userLevelKey] || '👤 一般用戶';
+        
+        // 3. 確保所有階級都有對應的 CSS Class
+        let tierClass = "user-role";
+        if (currentUser.isAdmin) {
+            tierClass += " tier-admin";
+        } else {
+            // 這裡用 userLevelKey 直接比對，保證黃金、鑽石、傳說都會被正確標記
+            if (userLevelKey === "gold") tierClass += " tier-gold";
+            if (userLevelKey === "diamond") tierClass += " tier-diamond";
+            if (userLevelKey === "legend") tierClass += " tier-legend";
+        }
 
-        userSection.innerHTML = `
-        <div class="user-info" style="padding: 5px 15px;">
-            <span class="badge ${levelClass}" style="margin:0;">${levelText}</span>
-            <span class="name" style="margin-left:8px;">${currentUser.nickname}</span>
-        </div>
-        <button class="btn btn-danger btn-small" onclick="logout()">
-            🚪 ${trans.logout}
-        </button>
+        // 4. 只拼接一次內容
+        html += `
+            <div class="user-info-btn" onclick="showPage('member')">
+                <span class="user-name" style="color: #ffffff; font-weight: bold; font-size: 0.9em;">${currentUser.nickname || currentUser.username}</span>
+                <span class="${tierClass}">${displayLevel}</span>
+            </div>
+            <button class="btn btn-small btn-danger" onclick="logout()" style="margin-left: 10px; border-color: #ff4757; color: #ff4757;">登出</button>
         `;
-        if (langSwitcher) userSection.prepend(langSwitcher);
-    } else { 
-        userSection.innerHTML = `
-        <button class="btn btn-small" onclick="openLoginModal()" data-lang-key="login">${trans.login}</button>
-        <button class="btn btn-success btn-small" onclick="openRegisterModal()" data-lang-key="register">${trans.register}</button>
+    } else {
+        html += `
+            <button class="btn btn-small" onclick="openLoginModal()">登入</button>
+            <button class="btn btn-success btn-small" onclick="openRegisterModal()">註冊</button>
         `;
-        if (langSwitcher) userSection.prepend(langSwitcher);
     }
 
-    const tabsContainer = document.querySelector('.tabs');
-    const existingAdminBtn = document.getElementById('adminSettingsBtn');
-    if (existingAdminBtn) existingAdminBtn.remove();
-
-    if (currentUser && currentUser.isAdmin) {
-        const adminBtn = document.createElement('a');
-        adminBtn.id = 'adminSettingsBtn';
-        adminBtn.href = 'admin.html';
-        adminBtn.className = 'btn btn-small';
-        adminBtn.style.cssText = `margin-left: auto; background: transparent; border-color: #bd00ff; color: #bd00ff; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(189, 0, 255, 0.3); text-decoration: none;`;
-        adminBtn.innerHTML = '⚙️'; 
-        adminBtn.title = trans.admin_panel || 'Admin Panel';
-        adminBtn.onmouseover = function() { this.style.boxShadow = "0 0 20px rgba(189, 0, 255, 0.8)"; this.style.background = "rgba(189, 0, 255, 0.1)"; };
-        adminBtn.onmouseout = function() { this.style.boxShadow = "0 0 10px rgba(189, 0, 255, 0.3)"; this.style.background = "transparent"; };
-        if(tabsContainer) tabsContainer.appendChild(adminBtn);
-    }
+    // 5. 寫入 DOM
+    userSection.innerHTML = html;
 }
-
-// 核心頁面切換邏輯 (修復分頁按鈕)
-function showPage(pageName) {
-    currentPage = pageName;
+// --- [核心頁面切換邏輯] ---
+function showPage(pageId) {
+    currentPage = pageId;
+    
+    // 1. 切換分頁內容顯示
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(pageName).classList.add('active');
+    const target = document.getElementById(pageId);
+    if (target) {
+        target.classList.add('active');
+    } else {
+        console.error("找不到 ID 為 " + pageId + " 的頁面區塊");
+    }
 
-    const tabs = document.querySelectorAll('.tab');
-    tabs.forEach((tab) => {
-        if (tab.getAttribute('onclick') === `showPage('${pageName}')`) {
-            tab.classList.add('active');
+    // 2. 更新右側導航按鈕高亮
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        const action = btn.getAttribute('onclick') || "";
+        if (action.includes(`'${pageId}'`)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
     });
-    
-    const plansTab = document.querySelector('.tab[href="member.html"]');
-    if (plansTab) plansTab.classList.remove('active');
 
-    if (pageName === 'member') {
-        showMemberInfo();
+    // 3. 載入資料
+    if (pageId === 'member') {
+        if (typeof showMemberInfo === 'function') showMemberInfo();
         startAutoRefresh();
-    } else if (pageName === 'queue') {
-        showQueuePage();
+    } else if (pageId === 'queue') {
+        if (typeof showQueuePage === 'function') showQueuePage();
         startAutoRefresh();
-    } else if (pageName === 'calculator') {
+    } else if (pageId === 'calculator') {
         stopAutoRefresh();
-        updateWeekDisplay();
-        calculate(); 
-        renderPricingTables();
+        if(typeof renderPricingTables === 'function') renderPricingTables();
+        if(typeof updateWeekDisplay === 'function') updateWeekDisplay();
     } else {
         stopAutoRefresh();
     }
-}
 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 // Modal 控制
 function openLoginModal() { 
     closeRegisterModal(); // 開啟登入前先關閉註冊
@@ -1456,8 +1463,8 @@ function getCurrentLang() {
 
 const translations = {
     'zh': {
-        'page_title': '廖嘉泰の會員管理系統',
-        'app_title': '🎮 廖嘉泰の會員管理系統',
+        'page_title': '廖嘉泰の管理系統',
+        'app_title': '🎮 廖嘉泰の管理系統',
         'app_subtitle': '📢 GAME LIVE 主播專屬平台',
         'login': '登入',
         'register': '註冊',
@@ -1603,8 +1610,8 @@ const translations = {
         'alert_priority_confirm': '確定要使用 1 次優先排隊權限嗎？'
     },
     'en': {
-        'page_title': "Ted's Member System",
-        'app_title': "🎮 Ted's Member System",
+        'page_title': "Ted's Management System",
+        'app_title': "🎮 Ted's Management System",
         'app_subtitle': '📢 Exclusive Platform for GAME LIVE Streamers',
         'login': 'Login',
         'register': 'Register',
