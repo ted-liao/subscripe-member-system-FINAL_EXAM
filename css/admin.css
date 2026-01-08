@@ -1490,23 +1490,39 @@ body {
     overflow-x: hidden; /* 防止水平捲軸 */
 }
 
+/* --- 基礎佈局修正 --- */
 .admin-wrapper {
     display: flex;
     min-height: 100vh;
+    flex-direction: row; /* 水平排列 */
+    overflow-x: hidden;
 }
 
-/* 2. 左側導航欄 (Sidebar) */
+/* 1. 主要內容區 (移動到左邊) */
+.main-content {
+    flex: 1; /* 自動佔滿左側剩餘空間 */
+    padding: 40px;
+    margin-left: 0 !important; /* 移除原本左側導航留下的空隙 */
+    margin-right: 0;
+    overflow-y: auto;
+}
+
+/* 2. 導航列 (移動到右邊) */
 .sidebar {
     width: 260px;
-    background: rgba(10, 10, 15, 0.95); /* 深黑底 */
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(10, 10, 15, 0.95);
+    /* 核心修改：邊框改為左側，與內容區隔開 */
+    border-right: none !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.1); 
+    
     display: flex;
     flex-direction: column;
     padding: 20px;
-    position: fixed;
-    height: 100%;
+    position: sticky; /* 改為 sticky 讓它在大螢幕時跟隨滾動 */
+    top: 0;
+    height: 100vh;
     z-index: 100;
-    backdrop-filter: blur(10px); /* 毛玻璃 */
+    backdrop-filter: blur(10px);
 }
 
 .sidebar h2 {
@@ -1537,19 +1553,19 @@ body {
     box-shadow: none !important;
 }
 
+/* 導航按鈕微調 */
 .nav-btn:hover {
     background: rgba(255, 255, 255, 0.05) !important;
     color: #fff !important;
-    padding-left: 25px !important; /* 滑鼠移過去稍微右移 */
+    padding-right: 25px !important; /* 懸停時向左側縮排，增加向右推的感覺 */
+    padding-left: 20px !important;
 }
 
-/* 選中狀態：發光 + 漸層 */
+/* 選中狀態亮條改到右邊 (可選，看你喜好) */
 .nav-btn.active {
-    background: linear-gradient(90deg, rgba(189, 0, 255, 0.2), transparent) !important;
-    color: #fff !important;
-    border-left: 4px solid #bd00ff !important; /* 左側亮條 */
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(189, 0, 255, 0.8);
+    background: linear-gradient(-90deg, rgba(189, 0, 255, 0.2), transparent) !important;
+    border-left: none !important;
+    border-right: 4px solid #bd00ff !important; /* 亮條改到右側更顯眼 */
 }
 
 /* 4. 右側主內容區 (.main-content) */
@@ -1812,4 +1828,113 @@ input[type="date"] {
     border-radius: 3px;
     padding: 2px 0;
     margin-top: 2px;
+}
+/* =========================================
+   ▼▼▼ 會員資訊按鈕樣式 (可點擊) ▼▼▼
+   ========================================= */
+
+.user-info-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    margin: 0 10px;
+    clip-path: none !important; /* 取消切角，保持方正 */
+}
+
+.user-info-btn:hover {
+    background: rgba(189, 0, 255, 0.2) !important;
+    border-color: #bd00ff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(189, 0, 255, 0.4);
+}
+
+.user-info-btn:active {
+    transform: translateY(0);
+}
+
+.user-info-btn .user-name {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.user-info-btn .user-role {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.7);
+    background: linear-gradient(135deg, #bd00ff 0%, #8a00cc 100%);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 手機版適配 */
+@media (max-width: 768px) {
+    .user-info-btn {
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .user-info-btn .user-name {
+        font-size: 0.9em;
+    }
+
+    .user-info-btn .user-role {
+        font-size: 0.7em;
+    }
+}
+.user-role.tier-diamond {
+    background: #00f3ff !important; /* 實心亮青藍 */
+    color: #000 !important;        /* 黑字最清晰 */
+    backdrop-filter: none !important; /* 移除霧霧的濾鏡 */
+    box-shadow: 0 0 20px #00f3ff !important; /* 強制噴射藍光 */
+    font-weight: 900;
+}
+@media (max-width: 1024px) {
+    .admin-wrapper {
+        flex-direction: column !important; /* 改為垂直堆疊 */
+        align-items: center !important;
+    }
+
+    /* 導航欄在手機版移到第一個 (標題下方，內容上方) */
+    .sidebar {
+        order: 1 !important; 
+        width: 100% !important;
+        height: auto !important;
+        position: static !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-left: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 15px !important;
+    }
+
+    /* 主要內容區排在導航下方 */
+    .main-content {
+        order: 2 !important;
+        width: 100% !important;
+        padding: 20px !important;
+    }
+
+    .sidebar h2 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px !important;
+    }
+
+    .nav-btn {
+        flex: 0 1 auto;
+        min-width: 130px;
+        justify-content: center !important;
+        padding: 12px !important;
+    }
 }
