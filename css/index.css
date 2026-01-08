@@ -192,31 +192,36 @@ a.tab:hover {
 
 .sub-tabs {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
 }
 
 .sub-tab {
-    padding: 10px 20px;
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: #ffffff;
     cursor: pointer;
-    font-size: 15px;
-    color: #666;
-    transition: all 0.3s;
-}
-
-.sub-tab.active {
-    color: #667eea;
-    border-bottom-color: #667eea;
-    font-weight: bold;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
 }
 
 .sub-tab:hover {
-    color: #667eea;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sub-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    color: #ffffff;
+    font-weight: 600;
 }
 
 .sub-page {
@@ -1323,7 +1328,7 @@ h1, h2, h3, h4, h5, h6, .btn, strong, b {
     box-shadow: 0 0 15px rgba(0,0,0,0.3) !important;
 }
 
-/* 設定標題顏色 (⚙️ 帳號設定) */
+/* 設定標題顏色 ⚙️ 帳號設定) */
 .settings-section h4 {
     color: #00f3ff !important; /* 螢光青色，跟其他標題統一 */
     text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
@@ -2092,4 +2097,837 @@ button[onclick="joinQueue()"] {
 /* 當 Modal 加上 .active 時，裡面的 content 執行動畫 */
 .modal.active .modal-content {
     animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+/* =========================================
+   ▼▼▼ 修正：右側直式導航欄佈局 ▼▼▼
+   ========================================= */
+
+/* 1. 容器本身不用 flex（避免頂部被拉歪） */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    /* ❌ 移除這行：display: flex; */
+}
+
+/* 2. 新增：主內容區的 Flex 佈局 */
+.main-content-wrapper {
+    display: flex;
+    gap: 30px; /* 左右間距 */
+    align-items: flex-start;
+    margin-top: 30px; /* 與上方 top-bar 保持距離 */
+}
+
+/* 3. 左側主要內容區 - 自動填滿剩餘空間 */
+.card {
+    flex: 1; /* 佔據剩餘寬度 */
+    min-width: 0; /* 防止被內容撐開 */
+}
+
+/* 4. 右側導航欄 - 固定寬度 */
+.vertical-nav {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 200px; /* 固定寬度 */
+    flex-shrink: 0; /* 不允許被壓縮 */
+}
+
+/* 5. 直式按鈕樣式（保持不變） */
+.tab-vertical {
+    padding: 15px 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #ccc;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    clip-path: polygon(
+        10px 0, 
+        100% 0, 
+        100% calc(100% - 10px), 
+        calc(100% - 10px) 100%, 
+        0 100%, 
+        0 10px
+    );
+}
+
+.tab-vertical:hover {
+    border-color: #00f3ff;
+    color: #00f3ff;
+    background: rgba(0, 243, 255, 0.05);
+    transform: translateX(-5px);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.tab-vertical.active {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(102, 126, 234, 0.2));
+    border-color: #00f3ff;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+    transform: translateX(-8px);
+}
+
+.tab-vertical.active::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 20%;
+    width: 4px;
+    height: 60%;
+    background: linear-gradient(180deg, transparent, #00f3ff, transparent);
+    box-shadow: 0 0 10px #00f3ff;
+}
+
+/* 6. 手機版適配 */
+/* ===== 手機版 (小螢幕) 佈局修正 ===== */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* 由上至下排列 */
+        gap: 20px !important;
+    }
+
+    /* 1. 右側導航欄 (在手機版要移到上方) */
+    .side-nav-right {
+        order: 1 !important; /* 強制排在第一個 */
+        width: 100% !important;
+        flex-direction: row !important; /* 手機版橫向排列按鈕比較省空間 */
+        overflow-x: auto; /* 若按鈕太多可以左右滑動 */
+        position: static !important; /* 移除 sticky 以免擋住內容 */
+        padding: 5px 0;
+    }
+
+    /* 2. 左側主要內容卡片 (排在導航欄下方) */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在第二個 */
+        width: 100% !important;
+    }
+
+    /* 調整導航按鈕在手機上的寬度 */
+    .nav-btn {
+        flex: 1;
+        min-width: 100px;
+        padding: 10px 5px !important;
+        font-size: 14px !important;
+    }
+}/* ===== 響應式設計 ===== */
+
+/* 平板以下 (寬度 <= 1024px) */
+/* ===== 平板與手機版 (小於 1024px) 佈局修正 ===== */
+@media (max-width: 1024px) {
+    /* 讓容器變成垂直堆疊 */
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; 
+        gap: 20px !important;
+    }
+
+    /* 1. 右側導航欄 (移到上方，緊貼個人資料) */
+    .side-nav-right {
+        order: 1 !important; /* 強制排在第一個 */
+        width: 100% !important;
+        flex-direction: row !important; /* 橫向排列按鈕節省高度 */
+        overflow-x: auto; /* 若按鈕多可左右滑動 */
+        position: static !important;
+        padding: 5px 0;
+        gap: 10px !important;
+    }
+
+    /* 2. 主要內容卡片 (排在導航下方) */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在第二個 */
+        width: 100% !important;
+    }
+
+    .nav-btn {
+        flex: 1;
+        white-space: nowrap;
+        padding: 12px 10px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* 針對極小螢幕的微調 */
+@media (max-width: 480px) {
+    .nav-btn {
+        font-size: 13px !important;
+        padding: 10px 5px !important;
+    }
+}
+/* 手機 (寬度 <= 768px) */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.5em;
+    }
+
+    .header p {
+        font-size: 0.9em;
+    }
+
+    .user-section {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .lang-switcher {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .vertical-nav {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .tab-vertical {
+        height: 50px;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+    }
+
+    .tab-vertical:active {
+        transform: scale(0.98);
+    }
+
+    /* 計算器響應式 */
+    .calc-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .service-toggle-container {
+        flex-direction: column;
+    }
+
+    .service-option {
+        width: 100%;
+    }
+
+    /* 表格響應式 */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .data-table {
+        font-size: 0.85em;
+    }
+
+    /* Modal 響應式 */
+    .modal-content {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* 會員方案卡片 */
+    .plan-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* 智慧報價子分頁按鈕也垂直堆疊 */
+    .sub-tabs {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .sub-tab {
+        width: 100%;
+        height: 45px;
+    }
+}
+
+/* 小手機 (寬度 <= 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.2em;
+    }
+
+    .header p {
+        font-size: 0.8em;
+    }
+
+    .btn {
+        font-size: 0.9em;
+        padding: 10px 15px;
+    }
+
+    .btn-small {
+        font-size: 0.85em;
+        padding: 8px 12px;
+    }
+
+    .tab-vertical {
+        height: 48px;
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .vertical-nav {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    /* 計算器價格顯示 */
+    .price-display .currency {
+        font-size: 1.5em;
+    }
+
+    .price-display .amount {
+        font-size: 2.5em;
+    }
+
+    /* 輸入框 */
+    .input-group input,
+    .input-group select {
+        font-size: 14px;
+    }
+
+    /* 子分頁按鈕 */
+    .sub-tabs {
+        gap: 6px;
+    }
+
+    .sub-tab {
+        height: 42px;
+        font-size: 0.85em;
+    }
+}
+
+/* 橫屏手機優化 */
+@media (max-width: 896px) and (orientation: landscape) {
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .top-bar {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 1.3em;
+    }
+
+    /* 橫屏時可選：改為橫向排列以節省空間 */
+    .vertical-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+    }
+
+    .tab-vertical {
+        min-width: 120px;
+        flex-shrink: 0;
+    }
+}
+
+/* 超窄螢幕 (寬度 <= 360px) */
+@media (max-width: 360px) {
+    .tab-vertical {
+        height: 45px;
+        font-size: 0.85em;
+    }
+
+    .sub-tab {
+        height: 40px;
+        font-size: 0.8em;
+        padding: 8px;
+    }
+}
+/* 會員資訊按鈕樣式 */
+.user-info-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    margin: 0 10px;
+}
+
+.user-info-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.user-info-btn:active {
+    transform: translateY(0);
+}
+
+.user-info-btn .user-name {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.user-info-btn .user-role {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.7);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .user-info-btn {
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .user-info-btn .user-name {
+        font-size: 0.9em;
+    }
+
+    .user-info-btn .user-role {
+        font-size: 0.7em;
+    }
+}
+/* 右側導航按鈕強化版 */
+.nav-btn {
+    background: rgba(0, 0, 0, 0.8) !important; /* 加深背景 */
+    color: #00f3ff !important;
+    border: 1px solid #00f3ff !important;
+    padding: 16px 20px;
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); /* 增加文字發光 */
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #00f3ff !important;
+    color: #000 !important;
+    box-shadow: -8px 0 25px rgba(0, 243, 255, 0.8);
+    text-shadow: none;
+}
+/* 會員個人資訊按鈕 */
+.user-info-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: rgba(0, 0, 0, 0.7) !important; /* 加深底色 */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* 核心：只有底座有毛玻璃層 */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    z-index: 1;
+}
+
+.user-info-btn:hover {
+    background: rgba(0, 243, 255, 0.3);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+.user-info-btn:active {
+    transform: scale(0.95);
+}
+/* 標籤本身：實心、絕不模糊 */
+.user-info-btn .user-role {
+    /* 強制移除所有模糊濾鏡 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* 確保背景是 100% 不透明的實心色 */
+    background-color: #39ff14 !important; /* 預設螢光綠 */
+    color: #000000 !important;           /* 實心底配黑字對比最高 */
+    
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    font-size: 13px !important;
+    display: inline-block !important;
+    text-shadow: none !important;         /* 移除陰影減少霧感 */
+    border: none !important;
+    z-index: 2;                           /* 確保在毛玻璃層之上 */
+}
+
+/* 鑽石：實心電磁藍 */
+.user-info-btn .user-role.tier-diamond {
+    background-color: #00f3ff !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px #00f3ff !important;
+    animation: diamond-pulse-intense 1.5s infinite !important;
+}
+
+/* 傳說：實心緋紅 */
+.user-info-btn .user-role.tier-legend {
+    background-color: #ff0055 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px #ff0055 !important;
+}
+
+/* 黃金：實心亮金 */
+.user-info-btn .user-role.tier-gold {
+    background-color: #FFD700 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 15px #FFD700 !important;
+}
+/* =========================================
+   ▼▼▼ 核心修復：右側直式導航與資訊按鈕 ▼▼▼
+   ========================================= */
+
+/* 修正 1：強制導航欄變回「直式」並放在右邊 */
+.side-nav-right {
+    width: 200px !important;
+    display: flex !important;
+    flex-direction: column !important; /* 強制垂直排列 */
+    gap: 15px !important;
+    position: sticky !important;
+    top: 20px;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+/* 修正 2：確保按鈕選中時 (Active) 變藍色，未選中是黑色 */
+.nav-btn {
+    background: rgba(0, 0, 0, 0.8) !important; /* 預設深黑底 */
+    color: #00f3ff !important; /* 預設亮青字 */
+    border: 2px solid #00f3ff !important;
+    transition: all 0.3s ease;
+}
+
+.nav-btn.active {
+    background: #00f3ff !important; /* 選中時變藍色背景 */
+    color: #000000 !important;    /* 選中時變黑字 */
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.6) !important;
+}
+
+/* 修正 3：右上角個人資訊按鈕樣式 (含動畫與等級顏色) */
+.user-info-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end;
+    padding: 8px 15px;
+    border: 1px solid #00f3ff !important;
+    background: rgba(0, 243, 255, 0.1) !important;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.user-info-btn:hover {
+    background: rgba(0, 243, 255, 0.3) !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+/* 會員等級標籤文字顏色 (補回原本鑽石等顏色) */
+.user-role {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #39ff14 !important; /* 會員等級顯示為螢光綠 */
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+
+/* 語言切換器位置修正 */
+.lang-switcher {
+    margin-right: 15px;
+    display: flex;
+    gap: 5px;
+}
+/* =========================================================
+   ▼▼▼ 鑽石會員專屬：極致發光補丁 (Diamond Tier Ultra) ▼▼▼
+   ========================================================= */
+
+/* 1. 右上角個人資訊按鈕中的 [鑽石會員] 標籤 */
+.user-info-btn .user-role[style*="鑽石"], 
+.user-info-btn .user-role:contains('鑽石'),
+.user-info-btn .user-role {
+    /* 如果文字包含鑽石，套用以下樣式 */
+    background: linear-gradient(135deg, #00f3ff 0%, #0077ff 100%) !important;
+    color: #ffffff !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    padding: 2px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.8) !important;
+    border: 1px solid #ffffff !important;
+    animation: diamond-pulse 2s infinite; /* 加入呼吸燈動畫 */
+}
+
+/* 2. 首頁「會員方案」中的鑽石會員卡片 */
+#home h4[style*="00B4DB"] + div > div {
+    border: 3px solid #00f3ff !important; /* 邊框加粗 */
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(0, 0, 0, 0.9)) !important;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 20px rgba(0, 243, 255, 0.2) !important;
+    transform: scale(1.05); /* 讓它比其他卡片稍微大一點點 */
+}
+
+/* 鑽石卡片內的價格文字 */
+#home h4[style*="00B4DB"] + div > div div:first-child {
+    color: #ffffff !important;
+    text-shadow: 0 0 15px #00f3ff, 0 0 30px #00f3ff !important;
+}
+
+/* 3. 鑽石專屬呼吸燈動畫 */
+@keyframes diamond-pulse {
+    0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.6); filter: brightness(1); }
+    50% { box-shadow: 0 0 25px rgba(0, 243, 255, 1); filter: brightness(1.3); }
+    100% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.6); filter: brightness(1); }
+}
+
+/* 修正 contains 在某些瀏覽器的兼容問題，確保選擇器能抓到 */
+[data-tier="diamond"] {
+    border-color: #00f3ff !important;
+    color: #00f3ff !important;
+}
+/* =========================================================
+   ▼▼▼ 鑽石會員專屬：高飽和度電競藍 (Clear Diamond) ▼▼▼
+   ========================================================= */
+
+/* 1. 強化右上角 [鑽石會員] 標籤 - 移除模糊，強化飽和度 */
+.user-info-btn .user-role.tier-diamond {
+    /* 移除透明度，改用極致飽和的顏色 */
+    background: #00f3ff !important; 
+    color: #000000 !important; /* 黑字在亮藍底最清晰 */
+    
+    /* 移除背景模糊，改用實心 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* 文字與形狀強化 */
+    padding: 3px 10px !important;
+    border-radius: 2px !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
+    
+    /* 特效：深藍色發光，讓它跳出黑色背景 */
+    box-shadow: 0 0 20px #00f3ff, 0 0 40px rgba(0, 243, 255, 0.4) !important;
+    border: none !important;
+    
+    /* 移除之前的 text-fill 與 clip，這是造成霧霧的主因 */
+    -webkit-background-clip: padding-box !important;
+    -webkit-text-fill-color: #000 !important;
+    
+    animation: diamond-pulse-intense 1.5s infinite;
+}
+
+/* 2. 鑽石等級專屬動畫 (更有力量的縮放閃爍) */
+@keyframes diamond-pulse-intense {
+    0% { transform: scale(1); box-shadow: 0 0 15px #00f3ff; }
+    50% { transform: scale(1.1); box-shadow: 0 0 30px #00f3ff, 0 0 50px rgba(0, 243, 255, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 15px #00f3ff; }
+}
+
+/* 3. 當滑鼠移到右上角會員按鈕時，整體亮度提升 */
+.user-info-btn:hover {
+    background: rgba(0, 243, 255, 0.2) !important;
+    border-color: #00f3ff !important;
+}
+/* =========================================================
+   ▼▼▼ 最終統合版：高對比 Neon 標籤 (解決重複與霧感問題) ▼▼▼
+   ========================================================= */
+
+/* 1. 底層容器：負責整體的毛玻璃背景與定位 */
+.user-info-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: rgba(10, 10, 15, 0.8) !important; /* 加深底色，讓發光更明顯 */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* 這裡才是毛玻璃作用的地方 */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    margin: 0 10px;
+}
+
+.user-info-btn:hover {
+    border-color: #00f3ff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.user-info-btn .user-name {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin-bottom: 4px;
+}
+
+/* 2. 頂層標籤：實心、高飽和度、無模糊、高對比 */
+.user-info-btn .user-role {
+    /* 核心：移除所有濾鏡與透明度，確保字體銳利 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-image: none !important;
+    
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    font-size: 13px !important;
+    display: inline-block !important;
+    border: none !important;
+    text-shadow: none !important;
+}
+
+/* --- 階級顏色分配 (亮底黑字最清晰) --- */
+
+/* 黃金：亮金配黑字 */
+.tier-gold { 
+    background: #FFD700 !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 15px #FFD700 !important; 
+}
+
+/* 鑽石：電磁亮藍配黑字 */
+.tier-diamond { 
+    background: #00f3ff !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 20px #00f3ff !important; 
+    animation: tier-pulse-diamond 2s infinite !important;
+}
+
+/* 傳說：赤紅雷射配白字 (深色配白字) */
+.tier-legend { 
+    background: #ff0055 !important; 
+    color: #ffffff !important; 
+    box-shadow: 0 0 20px #ff0055 !important; 
+    animation: tier-pulse-legend 1.5s infinite !important;
+}
+
+/* 管理員：螢光強綠 */
+.tier-admin { 
+    background: #39ff14 !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 15px #39ff14 !important; 
+}
+
+/* --- 呼吸動畫設定 --- */
+@keyframes tier-pulse-diamond {
+    0%, 100% { transform: scale(1); filter: brightness(1); box-shadow: 0 0 15px #00f3ff; }
+    50% { transform: scale(1.05); filter: brightness(1.2); box-shadow: 0 0 30px #00f3ff; }
+}
+
+@keyframes tier-pulse-legend {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 15px #ff0055; }
+    50% { transform: scale(1.1); box-shadow: 0 0 35px #ff0055; }
+}
+
+/* 齒輪旋轉動畫 */
+.admin-gear-btn {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.admin-gear-btn:hover {
+    transform: scale(1.2) rotate(90deg);
+}
+/* =========================================================
+   ▼▼▼ 小於 1024px 全域置中佈局修正 ▼▼▼
+   ========================================================= */
+@media (max-width: 1024px) {
+    /* 1. 頂部 Bar 置中 */
+    .top-bar {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 20px !important;
+    }
+
+    /* 2. 右上角用戶區塊置中 */
+    .user-section {
+        width: 100% !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* 3. 調整主容器順序：導航在內容之上 */
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* 垂直堆疊 */
+        align-items: center !important;    /* 核心：所有內容水平置中 */
+        gap: 25px !important;
+    }
+
+    /* 4. 側邊導航按鈕 (手機/平板版) */
+    .side-nav-right {
+        order: 1 !important; /* 強制在第一個順位 (個人資料下方) */
+        width: 100% !important;
+        max-width: 600px;    /* 限制按鈕群寬度不要太散 */
+        flex-direction: row !important; /* 按鈕橫向排開 */
+        flex-wrap: wrap !important;     /* 自動換行 */
+        justify-content: center !important; /* 按鈕水平置中 */
+        position: static !important;
+        gap: 12px !important;
+        padding: 10px 0;
+    }
+
+    .nav-btn {
+        flex: 0 1 auto !important; /* 寬度根據文字調整 */
+        min-width: 120px;
+        padding: 12px 15px !important;
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+
+    /* 5. 主要內容卡片區塊置中 */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在導航下方 */
+        width: 100% !important;
+        max-width: 900px;    /* 保持內容易讀寬度 */
+        margin: 0 auto !important;
+        text-align: center !important; /* 卡片內文字預設置中 */
+    }
+
+    /* 6. 確保卡片內的列表或輸入框維持水平置中 */
+    .input-group {
+        text-align: left !important; /* 輸入框標題還是靠左比較好填寫 */
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* 針對極小螢幕 (480px) 的微調 */
+@media (max-width: 480px) {
+    .nav-btn {
+        width: calc(50% - 10px); /* 一排兩個按鈕 */
+        min-width: 0;
+        font-size: 14px !important;
+    }
 }
