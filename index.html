@@ -1,361 +1,743 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-lang-key="page_title">廖嘉泰の會員管理系統</title>
+
+<title data-lang-key="page_title">廖嘉泰の管理系統</title>
+
 <link rel="stylesheet" href="css/index.css" />
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 </head>
+
 <body>
+
 <div id="loadingOverlay" class="loading-overlay">
+
     <div class="loading-spinner"></div>
+
 </div>
+
+
 
 <div class="container">
+
+    <!-- ===== 頂部區域 ===== -->
+
     <div class="top-bar">
+
         <div class="header">
+
             <a href="index.html">
-                <h1 data-lang-key="app_title" data-aos="fade-down">🎮 廖嘉泰の會員管理系統</h1>
+
+                <h1 data-lang-key="app_title" data-aos="fade-down">🎮 廖嘉泰の管理系統</h1>
+
                 <p data-lang-key="app_subtitle" data-aos="fade-down">📢 GAME LIVE 主播專屬平台</p>
+
             </a>
+
         </div>
+
+
 
         <div class="user-section" id="userSection" data-aos="fade-left" data-aos-delay="200">
+
             <div class="lang-switcher">
+
                 <button class="btn-lang" onclick="setLanguage('en')">English</button>
+
                 <span style="color: white; margin: 0 5px;">|</span>
+
                 <button class="btn-lang active" onclick="setLanguage('zh')">中文</button>
+
             </div>
+
+
 
             <button class="btn btn-small" onclick="openLoginModal()" data-lang-key="login">登入</button>
+
             <button class="btn btn-success btn-small" onclick="openRegisterModal()" data-lang-key="register">註冊</button>
+
         </div>
+
     </div>
 
-    <div class="card">
-        <div class="tabs">
-            <button class="tab active" onclick="showPage('home')" data-lang-key="tab_home">首頁</button>
-            <button class="tab" onclick="showPage('queue')" data-lang-key="tab_queue">排隊系統</button>
-            <button class="tab" onclick="showPage('member')" data-lang-key="tab_member">我的會員</button>
-            <button class="tab" onclick="showPage('calculator')" data-lang-key="tab_calculator">智慧報價</button>
-        </div>
 
-        <div id="home" class="page active">
-            <h2 style="margin-bottom: 20px;" data-lang-key="home_welcome" data-aos="zoom-in">歡迎來到 廖嘉泰の會員系統</h2>
 
-            <div style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <h3 style="margin-bottom: 0;" data-lang-key="home_plans_title">會員方案</h3>
-                    <a href="member.html" class="btn" data-lang-key="home_plans_button">💎查看完整方案 & 名單</a>
-                </div>
+    <!-- ===== 主內容區域容器 (包含左側內容 + 右側導航) ===== -->
 
-                <div style="margin-bottom: 30px;">
-                    <h4 style="color: #FFA500; margin-bottom: 10px;">💛 黃金會員</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$60</div>
-                            <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$160</div>
-                            <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$250</div>
-                            <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
-                        </div>
-                    </div>
-                </div>
+    <div class="main-content-wrapper">
 
-                <div style="margin-bottom: 30px;">
-                    <h4 style="color: #00B4DB; margin-bottom: 10px;">💎 鑽石會員</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$100</div>
-                            <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$280</div>
-                            <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$450</div>
-                            <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- 左側：主要內容卡片 -->
 
-                <div style="margin-bottom: 30px;">
-                    <h4 style="color: #C44569; margin-bottom: 10px;">🔥 傳說會員</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$200</div>
-                            <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$580</div>
-                            <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
-                        </div>
-                        <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
-                            <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$950</div>
-                            <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px;" data-aos="fade-up">
-                    <h3 style="margin-bottom: 15px;" data-lang-key="home_how_to_title">📝 如何註冊</h3>
-                    <ol style="line-height: 2; padding-left: 20px;">
-                        <li data-lang-key="home_step_1">向主播購買會員方案，獲得 <strong>6位兌換碼</strong></li>
-                        <li data-lang-key="home_step_2">點擊右上角「註冊」按鈕</li>
-                        <li data-lang-key="home_step_3">輸入兌換碼和您的資料</li>
-                        <li data-lang-key="home_step_4">完成註冊,開始享受會員權益!</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <div id="queue" class="page">
-            <div id="queueContent"></div>
-        </div>
-
-        <div id="member" class="page">
-            <div id="memberContent"></div>
-        </div>
-
-        <div id="calculator" class="page">
-    
-    <div class="sub-tabs" style="justify-content: center; margin-bottom: 30px;">
-        <button class="sub-tab active" onclick="switchCalcTab('main', this)">🧮 報價計算</button>
-        <button class="sub-tab" onclick="switchCalcTab('algorithm', this)">📊 價格算法</button>
-        <button class="sub-tab" onclick="switchCalcTab('manual', this)">📜 上分說明書</button>
-    </div>
-
-    <div id="calc-sub-main" class="sub-page active">
-        <div class="calc-grid">
-            <div class="card calc-input-panel">
-                <h2 style="color: #00f3ff; text-shadow: 0 0 10px rgba(0,243,255,0.5); margin-bottom: 20px;">📊 設定您的目標</h2>
-                
-                <div class="service-toggle-container">
-                    <div class="service-option active" id="optBoost" onclick="setServiceType('boost')">
-                        <div class="icon">⚡</div>
-                        <div class="label">Ted 代打</div>
-                        <div class="sub-label">極速上分 · CP值最高</div>
-                    </div>
-                    <div class="service-option" id="optCarry" onclick="setServiceType('carry')">
-                        <div class="icon">🛡️</div>
-                        <div class="label">尊榮護航</div>
-                        <div class="sub-label">雙人陪玩 · 語音教學</div>
-                    </div>
-                </div>
-
-                <div class="input-group">
-    <label>目前分數</label>
-    <input type="number" id="currentScore" placeholder="例如: 5000 (最低 4501)">
-</div>
-
-<div class="input-group">
-    <label>目標分數</label>
-    <input type="number" id="targetScore" placeholder="例如: 8000">
-</div>
-
-<button class="btn" onclick="calculate()" style="width: 100%; margin-top: 15px; background: linear-gradient(45deg, #00f3ff, #0066ff); box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);">
-    💰 開始報價
-</button>
-                <div class="info-item" style="margin-top: 20px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 5px; color: #fff;">
-                    <span>📅 目前賽季進度：</span>
-                    <span id="currentWeekDisplay" style="color: #FFD700; font-weight: bold;">讀取中...</span>
-                </div>
-            </div>
-
-            <div class="card calc-result-panel">
-                <h2 style="color: #39ff14; text-shadow: 0 0 10px rgba(57,255,20,0.5); margin-bottom: 20px;">💰 預估報價</h2>
-                
-                <div id="resultContent" style="display:none;">
-                    <div class="price-display">
-                        <span class="currency">NT$</span>
-                        <span id="finalPrice" class="amount">0</span>
-                    </div>
-                    
-                    <div class="price-details">
-                        <div class="detail-row">
-                            <span>總分差：</span>
-                            <span id="scoreDiff">0 分</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>預計耗時：</span>
-                            <span id="estTime">計算中...</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>目前費率：</span>
-                            <span id="rateTag" class="badge badge-gold">標準</span>
-                        </div>
-                    </div>
-
-                    <div id="calcBreakdown" class="calc-breakdown">
-                        </div>
-
-                    <div id="compareBox" class="compare-box" style="display: none;">
-                        <div class="compare-icon">💡</div>
-                        <div class="compare-text">
-                            選擇 <strong>⚡ Ted代打</strong> 可省下約 <span id="saveAmount" style="color: #39ff14; font-size: 1.2em;">$0</span>
-                            <br><small>效率提升 40% · 價格更划算</small>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-success" style="width: 100%; margin-top: 20px; font-size: 1.2em;" onclick="contactService()">
-                        🚀 立即預約
-                    </button>
-                </div>
-
-                <div id="emptyState" class="empty-state">
-                    <p style="color: #aaa; text-align: center; margin-top: 50px;">請在左側輸入分數<br>系統將自動計算最優價格</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="calc-sub-algorithm" class="sub-page">
         <div class="card">
-            <h3 style="color: #00f3ff; margin-bottom: 20px;">📊 價格透明化公示</h3>
-            <p style="color: #ccc; margin-bottom: 20px;">我們的報價由「基礎價格」乘以「賽季權重」計算得出。公開透明，童叟無欺。</p>
-            
-            <h4 style="color: #FFD700; margin-bottom: 10px;">1. 基礎價格 (Base Price / 100分)</h4>
-            <div class="table-responsive">
-                <table class="data-table" id="tableBasePrices">
-                    </table>
+
+            <!-- ========== 首頁 ========== -->
+
+            <div id="home" class="page active">
+
+                <h2 style="margin-bottom: 20px;" data-lang-key="home_welcome" data-aos="zoom-in">歡迎來到 廖嘉泰の會員系統</h2>
+
+
+
+                <div style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+
+                        <h3 style="margin-bottom: 0;" data-lang-key="home_plans_title">會員方案</h3>
+
+                        <a href="member.html" class="btn" data-lang-key="home_plans_button">💎查看完整方案 & 名單</a>
+
+                    </div>
+
+
+
+                    <div style="margin-bottom: 30px;">
+
+                        <h4 style="color: #FFA500; margin-bottom: 10px;">💛 黃金會員</h4>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$60</div>
+
+                                <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$160</div>
+
+                                <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FFD700;" data-aos="flip-left" data-aos-delay="100">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$250</div>
+
+                                <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div style="margin-bottom: 30px;">
+
+                        <h4 style="color: #00B4DB; margin-bottom: 10px;">💎 鑽石會員</h4>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$100</div>
+
+                                <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$280</div>
+
+                                <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #B9F2FF;" data-aos="flip-left" data-aos-delay="200">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$450</div>
+
+                                <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div style="margin-bottom: 30px;">
+
+                        <h4 style="color: #C44569; margin-bottom: 10px;">🔥 傳說會員</h4>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$200</div>
+
+                                <div style="color: #666;" data-lang-key="duration_1">1個月 (30天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$580</div>
+
+                                <div style="color: #666;" data-lang-key="duration_2">3個月 (90天)</div>
+
+                            </div>
+
+                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #FF6B6B;" data-aos="flip-left" data-aos-delay="300">
+
+                                <div style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 10px 0;">NT$950</div>
+
+                                <div style="color: #666;" data-lang-key="duration_3">5個月 (150天)</div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 10px;" data-aos="fade-up">
+
+                        <h3 style="margin-bottom: 15px;" data-lang-key="home_how_to_title">📝 如何註冊</h3>
+
+                        <ol style="line-height: 2; padding-left: 20px;">
+
+                            <li data-lang-key="home_step_1">向主播購買會員方案，獲得 <strong>6位兌換碼</strong></li>
+
+                            <li data-lang-key="home_step_2">點擊右上角「註冊」按鈕</li>
+
+                            <li data-lang-key="home_step_3">輸入兌換碼和您的資料</li>
+
+                            <li data-lang-key="home_step_4">完成註冊,開始享受會員權益!</li>
+
+                        </ol>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <h4 style="color: #FFD700; margin-top: 30px; margin-bottom: 10px;">2. 賽季權重 (Season Weights)</h4>
-            <p style="color: #aaa; font-size: 0.9em; margin-bottom: 10px;">* 賽季初需求量大，權重較高；賽季末優惠促銷，權重較低。</p>
-            <div class="table-responsive">
-                <table class="data-table" id="tableWeights">
-                    </table>
+
+
+            <!-- ========== 排隊系統 ========== -->
+
+            <div id="queue" class="page">
+
+                <div id="queueContent"></div>
+
             </div>
+
+
+
+            <!-- ========== 我的會員 ========== -->
+
+            <div id="member" class="page">
+
+                <div id="memberContent"></div>
+
+            </div>
+
+
+
+            <!-- ========== 智慧報價 ========== -->
+
+            <div id="calculator" class="page">
+
+                <div class="sub-tabs" style="justify-content: center; margin-bottom: 30px;">
+
+                    <button class="sub-tab active" onclick="switchCalcTab('main', this)">🧮 報價計算</button>
+
+                    <button class="sub-tab" onclick="switchCalcTab('algorithm', this)">📊 價格算法</button>
+
+                    <button class="sub-tab" onclick="switchCalcTab('manual', this)">📜 上分說明書</button>
+
+                </div>
+
+
+
+                <div id="calc-sub-main" class="sub-page active">
+
+                    <div class="calc-grid">
+
+                        <div class="card calc-input-panel">
+
+                            <h2 style="color: #00f3ff; text-shadow: 0 0 10px rgba(0,243,255,0.5); margin-bottom: 20px;">📊 設定您的目標</h2>
+
+                            
+
+                            <div class="service-toggle-container">
+
+                                <div class="service-option active" id="optBoost" onclick="setServiceType('boost')">
+
+                                    <div class="icon">⚡</div>
+
+                                    <div class="label">Ted 代打</div>
+
+                                    <div class="sub-label">極速上分 · CP值最高</div>
+
+                                </div>
+
+                                <div class="service-option" id="optCarry" onclick="setServiceType('carry')">
+
+                                    <div class="icon">🛡️</div>
+
+                                    <div class="label">尊榮護航</div>
+
+                                    <div class="sub-label">雙人陪玩 · 語音教學</div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>目前分數</label>
+
+                                <input type="number" id="currentScore" placeholder="例如: 5000 (最低 4501)">
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>目標分數</label>
+
+                                <input type="number" id="targetScore" placeholder="例如: 8000">
+
+                            </div>
+
+
+
+                            <button class="btn" onclick="calculate()" style="width: 100%; margin-top: 15px; background: linear-gradient(45deg, #00f3ff, #0066ff); box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);">
+
+                                💰 開始報價
+
+                            </button>
+
+
+
+                            <div class="info-item" style="margin-top: 20px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 5px; color: #fff;">
+
+                                <span>📅 目前賽季進度：</span>
+
+                                <span id="currentWeekDisplay" style="color: #FFD700; font-weight: bold;">讀取中...</span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card calc-result-panel">
+
+                            <h2 style="color: #39ff14; text-shadow: 0 0 10px rgba(57,255,20,0.5); margin-bottom: 20px;">💰 預估報價</h2>
+
+                            
+
+                            <div id="resultContent" style="display:none;">
+
+                                <div class="price-display">
+
+                                    <span class="currency">NT$</span>
+
+                                    <span id="finalPrice" class="amount">0</span>
+
+                                </div>
+
+                                
+
+                                <div class="price-details">
+
+                                    <div class="detail-row">
+
+                                        <span>總分差：</span>
+
+                                        <span id="scoreDiff">0 分</span>
+
+                                    </div>
+
+                                    <div class="detail-row">
+
+                                        <span>預計耗時：</span>
+
+                                        <span id="estTime">計算中...</span>
+
+                                    </div>
+
+                                    <div class="detail-row">
+
+                                        <span>目前費率：</span>
+
+                                        <span id="rateTag" class="badge badge-gold">標準</span>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div id="calcBreakdown" class="calc-breakdown"></div>
+
+
+
+                                <div id="compareBox" class="compare-box" style="display: none;">
+
+                                    <div class="compare-icon">💡</div>
+
+                                    <div class="compare-text">
+
+                                        選擇 <strong>⚡ Ted代打</strong> 可省下約 <span id="saveAmount" style="color: #39ff14; font-size: 1.2em;">$0</span>
+
+                                        <br><small>效率提升 40% · 價格更划算</small>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <button class="btn btn-success" style="width: 100%; margin-top: 20px; font-size: 1.2em;" onclick="contactService()">
+
+                                    🚀 立即預約
+
+                                </button>
+
+                            </div>
+
+
+
+                            <div id="emptyState" class="empty-state">
+
+                                <p style="color: #aaa; text-align: center; margin-top: 50px;">請在左側輸入分數<br>系統將自動計算最優價格</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div id="calc-sub-algorithm" class="sub-page">
+
+                    <div class="card">
+
+                        <h3 style="color: #00f3ff; margin-bottom: 20px;">📊 價格透明化公示</h3>
+
+                        <p style="color: #ccc; margin-bottom: 20px;">我們的報價由「基礎價格」乘以「賽季權重」計算得出。公開透明，童叟無欺。</p>
+
+                        
+
+                        <h4 style="color: #FFD700; margin-bottom: 10px;">1. 基礎價格 (Base Price / 100分)</h4>
+
+                        <div class="table-responsive">
+
+                            <table class="data-table" id="tableBasePrices"></table>
+
+                        </div>
+
+
+
+                        <h4 style="color: #FFD700; margin-top: 30px; margin-bottom: 10px;">2. 賽季權重 (Season Weights)</h4>
+
+                        <p style="color: #aaa; font-size: 0.9em; margin-bottom: 10px;">* 賽季初需求量大，權重較高；賽季末優惠促銷，權重較低。</p>
+
+                        <div class="table-responsive">
+
+                            <table class="data-table" id="tableWeights"></table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div id="calc-sub-manual" class="sub-page">
+
+                    <div class="card">
+
+                        <h3 style="color: #bd00ff; margin-bottom: 20px;">📜 上分服務說明書</h3>
+
+                        
+
+                        <div class="manual-section">
+
+                            <h4 style="color: #00f3ff;">⚡ Ted 代打 (Boosting)</h4>
+
+                            <ul>
+
+                                <li><strong>定義：</strong> 由 Ted 或頂級打手登入您的帳號進行操作。</li>
+
+                                <li><strong>優點：</strong> 效率最高 (100%)、價格最便宜、勝率極高。</li>
+
+                                <li><strong>適合：</strong> 想快速拿賽季獎勵、沒時間爬分的玩家。</li>
+
+                                <li><strong>安全：</strong> 全程手打、純淨IP、零外掛風險 (可直播)。</li>
+
+                            </ul>
+
+                        </div>
+
+
+
+                        <div class="manual-section">
+
+                            <h4 style="color: #FFD700;">🛡️ 尊榮護航 (Carry)</h4>
+
+                            <ul>
+
+                                <li><strong>定義：</strong> 您自己玩，Ted 與另一位打手雙排組隊帶您 (三排車)。</li>
+
+                                <li><strong>優點：</strong> 帳號不需給他人、全程語音教學、體驗高端局節奏。</li>
+
+                                <li><strong>缺點：</strong> 價格較高 (約代打的 2.5倍)、效率受您的發揮影響 (約 60%~75%)。</li>
+
+                                <li><strong>適合：</strong> 想學觀念、享受遊戲體驗、擔心帳號安全的玩家。</li>
+
+                            </ul>
+
+                        </div>
+
+
+
+                        <div class="manual-section">
+
+                            <h4 style="color: #ff0055;">⚠️ 注意事項</h4>
+
+                            <ol>
+
+                                <li><strong>掉分不接：</strong> 我們只負責「上分」，若目標分數低於當前分數，請自行掉分。</li>
+
+                                <li><strong>帳號安全：</strong> 代打期間請勿登入帳號，以免造成異地登入鎖定。</li>
+
+                                <li><strong>付款方式：</strong> 支援轉帳、超商代碼 (需+30元手續費)。</li>
+
+                                <li><strong>進度查詢：</strong> 可隨時私訊詢問目前進度。</li>
+
+                            </ol>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
+        <!-- 右側：直式導航欄 -->
+
+        <nav class="side-nav-right">
+
+    <button class="nav-btn active" onclick="showPage('home')">💎 首頁</button>
+
+    <button class="nav-btn" onclick="showPage('queue')">📋 排隊系統</button>
+
+    <button class="nav-btn" onclick="showPage('calculator')">🚀 智慧報價</button>
+
+</nav>
+
+
+
+<div class="user-section" id="userSection">
+
     </div>
 
-    <div id="calc-sub-manual" class="sub-page">
-        <div class="card">
-            <h3 style="color: #bd00ff; margin-bottom: 20px;">📜 上分服務說明書</h3>
-            
-            <div class="manual-section">
-                <h4 style="color: #00f3ff;">⚡ Ted 代打 (Boosting)</h4>
-                <ul>
-                    <li><strong>定義：</strong> 由 Ted 或頂級打手登入您的帳號進行操作。</li>
-                    <li><strong>優點：</strong> 效率最高 (100%)、價格最便宜、勝率極高。</li>
-                    <li><strong>適合：</strong> 想快速拿賽季獎勵、沒時間爬分的玩家。</li>
-                    <li><strong>安全：</strong> 全程手打、純淨IP、零外掛風險 (可直播)。</li>
-                </ul>
-            </div>
-
-            <div class="manual-section">
-                <h4 style="color: #FFD700;">🛡️ 尊榮護航 (Carry)</h4>
-                <ul>
-                    <li><strong>定義：</strong> 您自己玩，Ted 與另一位打手雙排組隊帶您 (三排車)。</li>
-                    <li><strong>優點：</strong> 帳號不需給他人、全程語音教學、體驗高端局節奏。</li>
-                    <li><strong>缺點：</strong> 價格較高 (約代打的 2.5倍)、效率受您的發揮影響 (約 60%~75%)。</li>
-                    <li><strong>適合：</strong> 想學觀念、享受遊戲體驗、擔心帳號安全的玩家。</li>
-                </ul>
-            </div>
-
-            <div class="manual-section">
-                <h4 style="color: #ff0055;">⚠️ 注意事項</h4>
-                <ol>
-                    <li><strong>掉分不接：</strong> 我們只負責「上分」，若目標分數低於當前分數，請自行掉分。</li>
-                    <li><strong>帳號安全：</strong> 代打期間請勿登入帳號，以免造成異地登入鎖定。</li>
-                    <li><strong>付款方式：</strong> 支援轉帳、超商代碼 (需+30元手續費)。</li>
-                    <li><strong>進度查詢：</strong> 可隨時私訊詢問目前進度。</li>
-                </ol>
-            </div>
-        </div>
     </div>
+
 </div>
+
+
+
+<!-- ===== Modal 彈出視窗 ===== -->
 
 <div id="loginModal" class="modal">
+
     <div class="modal-content">
+
         <div class="modal-header">
+
             <h2 data-lang-key="login_title">會員登入</h2>
+
             <button class="modal-close" onclick="closeLoginModal()">×</button>
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="username">使用者名稱</label>
+
             <input type="text" id="loginUsername" data-lang-key="username_placeholder" placeholder="請輸入使用者名稱">
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="password">密碼</label>
+
             <input type="password" id="loginPassword" data-lang-key="password_placeholder" placeholder="請輸入密碼">
+
         </div>
+
         <button class="btn" onclick="login()" style="width: 100%; margin-bottom: 10px;" data-lang-key="login">登入</button>
+
         <div class="text-link">
+
             <button class="btn-link" onclick="openForgotPasswordModal()" data-lang-key="forgot_password">忘記密碼？</button>
+
         </div>
+
     </div>
+
 </div>
 
+
+
 <div id="registerModal" class="modal">
+
     <div class="modal-content">
+
         <div class="modal-header">
+
             <h2 data-lang-key="register_title">註冊會員</h2>
+
             <button class="modal-close" onclick="closeRegisterModal()">×</button>
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="redeem_code">兌換碼</label>
+
             <input type="text" id="regActivationCode" data-lang-key="redeem_code_placeholder" placeholder="請輸入6位兌換碼" maxlength="6" style="text-transform: uppercase; letter-spacing: 2px;">
+
             <small style="color: #666; font-size: 12px;" data-lang-key="redeem_code_note">向主播購買會員後獲得的兌換碼</small>
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="username">使用者名稱</label>
+
             <input type="text" id="regUsername" data-lang-key="username_reg_placeholder" placeholder="請輸入使用者名稱（用於登入）">
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="password">密碼</label>
+
             <input type="password" id="regPassword" data-lang-key="password_reg_placeholder" placeholder="請輸入密碼（至少6個字元）">
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="confirm_password">確認密碼</label>
+
             <input type="password" id="regConfirmPassword" data-lang-key="confirm_password_placeholder" placeholder="請再次輸入密碼">
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="platform_select">平台選擇</label>
+
             <select id="regPlatform">
+
                 <option value="tiktok">TikTok</option>
+
                 <option value="youtube">YouTube</option>
+
             </select>
+
         </div>
+
         <div class="input-group">
+
             <label>TikTok/YouTube<span data-lang-key="nickname">暱稱</span> <span class="optional" data-lang-key="optional">(選填)</span></label>
+
             <input type="text" id="regNickname" data-lang-key="nickname_placeholder" placeholder="請輸入你的TikTok或YouTube暱稱">
+
             <small style="color: #666; font-size: 12px;" data-lang-key="nickname_note">如果不填寫，將使用使用者名稱作為暱稱</small>
+
         </div>
+
         <div class="input-group">
+
             <label>CODM UID</label>
+
             <input type="text" id="regGameUID" data-lang-key="game_uid_placeholder" placeholder="請輸入 Call of Duty Mobile UID">
+
             <small style="color: #666; font-size: 12px;" data-lang-key="game_uid_note">可在遊戲內個人資料查看</small>
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="sec_q">安全問題（用於找回密碼）</label>
+
             <select id="regSecurityQuestion">
+
                 <option value="" data-lang-key="sec_q_select">請選擇安全問題</option>
+
                 <option value="pet" data-lang-key="sec_q_pet">你的第一隻寵物叫什麼名字？</option>
+
                 <option value="school" data-lang-key="sec_q_school">你的小學校名是什麼？</option>
+
                 <option value="city" data-lang-key="sec_q_city">你出生的城市是哪裡？</option>
+
                 <option value="food" data-lang-key="sec_q_food">你最喜歡的食物是什麼？</option>
+
                 <option value="game" data-lang-key="sec_q_game">你最喜歡的CODM角色是什麼？</option>
+
             </select>
+
         </div>
+
         <div class="input-group">
+
             <label data-lang-key="sec_a">安全答案</label>
+
             <input type="text" id="regSecurityAnswer" data-lang-key="sec_a_placeholder" placeholder="請輸入答案（請記住此答案）">
+
         </div>
+
         <button class="btn" onclick="register()" style="width: 100%;" data-lang-key="register">註冊</button>
+
     </div>
+
 </div>
 
 <div id="forgotPasswordModal" class="modal">
@@ -429,7 +811,6 @@
 </div>
 
 <script src="js/index.js"></script>
-
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({
