@@ -2692,7 +2692,6 @@ button[onclick="joinQueue()"] {
     border: 3px solid #00f3ff !important; /* 邊框加粗 */
     background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(0, 0, 0, 0.9)) !important;
     box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 20px rgba(0, 243, 255, 0.2) !important;
-    /*transform: scale(1.05);  讓它比其他卡片稍微大一點點 */
 }
 
 /* 鑽石卡片內的價格文字 */
@@ -2931,4 +2930,5 @@ button[onclick="joinQueue()"] {
         font-size: 14px !important;
     }
 }
+
 
