@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訂單確認 - 玫心泰工作室</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="stylesheet" href="css/order.css">
+</head>
+<body>
+<div class="order-shell">
+    <div class="order-header">
+        <div class="order-title-wrap">
+            <a href="index.html" id="backHomeBtn">
+                <h1>📋 訂單確認</h1>
+                <p class="order-studio-sub">📢 玫心泰工作室 · 下單流程</p>
+            </a>
+        </div>
+        <p class="order-header-hint">請確認明細、填寫 LINE 名稱後下載訂單圖片，接著至官方 LINE 傳送訂單圖片並完成匯款。</p>
+    </div>
+
+    <div class="order-layout">
+        <div class="order-panel">
+            <div id="captureArea" class="capture-card">
+                <div class="receipt-logo-bar">
+                    <div class="receipt-logo-info">
+                        <strong>🎮 玫心泰工作室</strong>
+                        <span>GAME LIVE 主播專屬服務平台</span>
+                    </div>
+                    <div class="receipt-id-block">
+                        <div class="receipt-id-row"><span>訂單編號</span><strong id="orderNumber">生成中...</strong></div>
+                        <div class="receipt-id-row"><span>建單時間</span><strong id="orderTime">--</strong></div>
+                    </div>
+                </div>
+                <div class="receipt-divider"></div>
+                <div class="capture-title">
+                    <div>
+                        <h2 id="orderTitle">載入中...</h2>
+                        <p id="orderSubtitle"></p>
+                    </div>
+                    <div class="order-total" id="orderTotal">NT$0</div>
+                </div>
+
+                <div class="order-list" id="orderList"></div>
+
+                <div class="line-preview">
+                    客戶 LINE 名稱：<strong id="lineNamePreview">未填寫</strong>
+                </div>
+
+                <div class="order-note" id="orderNote"></div>
+            </div>
+        </div>
+
+        <div class="order-form">
+            <h3>填寫聯絡資訊</h3>
+            <label for="lineNameInput">LINE 名稱（必填）</label>
+            <input id="lineNameInput" type="text" placeholder="請輸入您的 LINE 名稱" required>
+            <small>這個欄位會一起顯示在訂單圖片中，方便工作室快速對單。</small>
+
+            <div class="action-row">
+                <button class="action-btn" id="downloadBtn" type="button">下載資料(JPG)</button>
+                <a class="action-btn line-btn" href="https://line.me/R/ti/p/@104ktglh" target="_blank" rel="noopener">官方LINE連結</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/order.js" defer></script>
+</body>
+</html>

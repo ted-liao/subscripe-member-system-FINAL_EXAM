@@ -1,0 +1,3193 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* ...其他設定... */
+    background-image: url('../image/bg-index.jpg'); /* 換成你的首頁圖檔名 */
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.8) !important; /* 遮罩濃度可自己調 */
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* --- 修正標題顏色的 CSS --- */
+.header, .header a {
+    color: #ffffff !important; /* 強制純白 */
+    text-decoration: none !important; /* 去除底線 */
+}
+
+.header h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important; /* 加深陰影 */
+    margin-bottom: 5px;
+    color: #ffffff !important;
+}
+
+.header p {
+    font-size: 1.1em;
+    color: #eeeeee !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+/* 滑鼠移過去時的效果 */
+.header a:hover {
+    opacity: 0.9;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; /* 發光增強 */
+}
+.user-section {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 語言切換容器 */
+/* 語言按鈕樣式 */
+a.btn {
+    text-decoration: none;
+    color: white;
+}
+
+.user-info {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.user-info .avatar {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.user-info .name {
+    font-weight: bold;
+    color: #333;
+}
+
+.badge-admin {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.tab {
+    padding: 12px 24px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+a.tab {
+    text-decoration: none;
+    color: #333;
+}
+a.tab.active {
+    color: white;
+}
+a.tab:hover {
+    color: #333;
+}
+
+.tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.tab:hover {
+    transform: translateY(-2px);
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.sub-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.sub-tab {
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.sub-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sub-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sub-page {
+    display: none;
+}
+
+.sub-page.active {
+    display: block;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-group label .optional {
+    font-weight: normal;
+    color: #999;
+    font-size: 0.9em;
+}
+
+.input-group input, .input-group select, .input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s;
+    font-family: inherit;
+}
+
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+}
+
+.input-row input {
+    text-align: center;
+}
+
+/* ▼▼▼▼▼ 貼上這段新的 ▼▼▼▼▼ */
+.btn {
+    /* 保留 padding 等設定 */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    
+    /* 設定為透明背景 + 霓虹邊框 */
+    background: transparent;
+    border: 2px solid #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.2); /* 預設微光 */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+/* 製作滑鼠移過去的填滿效果 (偽元素) */
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 0%; height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+/* 滑鼠移過去時，背景寬度變 100% */
+.btn:hover::before {
+    width: 100%; 
+}
+
+/* 滑鼠移過去時的發光特效 */
+.btn:hover {
+    box-shadow: 0 0 20px #667eea, 0 0 40px #764ba2; /* 強烈發光 */
+    transform: translateY(-3px);
+    border-color: transparent;
+}
+/* ▲▲▲▲▲ 結束 ▲▲▲▲▲ */
+.btn-danger {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.btn-link {
+    background: none;
+    color: #667eea;
+    text-decoration: underline;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.btn-link:hover {
+    transform: none;
+    box-shadow: none;
+    color: #764ba2;
+}
+
+.btn-copy {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+.btn-copy:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+}
+
+.member-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.member-info h2 {
+    margin-bottom: 15px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    align-items: center;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.badge-gold {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #333;
+}
+
+.badge-diamond {
+    background: linear-gradient(135deg, #B9F2FF 0%, #00B4DB 100%);
+    color: #fff;
+}
+
+.badge-legend {
+    background: linear-gradient(135deg, #FF6B6B 0%, #C44569 100%);
+    color: #fff;
+}
+
+.queue-card {
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.queue-position {
+    font-size: 3em;
+    font-weight: bold;
+    color: #667eea;
+    margin: 20px 0;
+}
+
+.queue-status {
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.queue-item {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member-item {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.member-item.expired {
+    background: #f1f1f1;
+    border-left-color: #999;
+}
+
+.member-item.active {
+    background: #e8f5e9;
+    border-left-color: #28a745;
+}
+
+.code-item {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #ffc107;
+}
+
+.code-item.used {
+    background: #d4edda;
+    border-left-color: #28a745;
+}
+
+.member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+.time-display {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #27ae60;
+    margin: 10px 0;
+}
+
+.time-display.warning {
+    color: #f39c12;
+}
+
+.time-display.danger {
+    color: #e74c3c;
+}
+
+.countdown-time {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.countdown-time.warning {
+    color: #f39c12;
+}
+
+.countdown-time.danger {
+    color: #e74c3c;
+}
+
+.text-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.modal {
+    position: fixed; /* 關鍵：改為 fixed 才會鎖定在螢幕視窗中 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* 使用視窗高度 */
+    display: none;
+    z-index: 1000;
+    background: rgba(0,0,0,0.8);
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+}
+.modal.active {
+    display: flex; /* 使用 flex 配合上面的 center 屬性 */
+}
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.game-session-card {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.game-session-card h2 {
+    margin-bottom: 15px;
+}
+
+.game-session-info {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.auto-refresh-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #28a745;
+    border-radius: 50%;
+    margin-left: 10px;
+    animation: pulse 2s infinite;
+}
+
+.warning-box {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.warning-box strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.code-display {
+    background: #f8f9fa;
+    border: 2px dashed #667eea;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.code-display .code {
+    font-size: 2em;
+    font-weight: bold;
+    color: #667eea;
+    letter-spacing: 3px;
+    font-family: 'Courier New', monospace;
+}
+
+.copy-area {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-panel {
+    display: none;
+    margin-top: 30px;
+    padding: 20px;
+    background: #f0f8ff;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+}
+
+.admin-panel.active {
+    display: block;
+}
+
+.admin-panel h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.backup-info {
+    background: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4caf50;
+}
+
+.backup-info strong {
+    color: #2e7d32;
+}
+
+.settings-section {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.settings-section h4 {
+    margin-bottom: 15px;
+    color: #00f3ff;
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
+}
+
+.loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab {
+        width: 100%;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-section {
+        width: 100%;
+        /* 讓語言切換器也換行 */
+        flex-wrap: wrap; 
+    }
+
+    .user-info {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .sub-tabs {
+        flex-wrap: wrap;
+    }
+}
+
+/* --- 方案一：熾熱火焰效果 --- */
+
+/* 優先排隊控制項容器 */
+.priority-queue-controls {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+}
+
+/* 剩餘次數文字 */
+.priority-quota-display {
+    font-size: 16px;
+    font-weight: bold;
+    color: #667eea;
+}
+.priority-quota-display span {
+    color: #C44569;
+    font-size: 1.2em;
+}
+
+/* Toggle Switch 美化 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #667eea;
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+input:disabled + .slider {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+/* 【修改點】按鈕發光效果 */
+.btn.priority-glow {
+    /* 讓動畫在 1.2 秒內無限循環 */
+    animation: priority-fire-pulse 1.2s infinite;
+    /* 確保縮放從中心開始 */
+    transform-origin: center;
+}
+
+/* 【修改點】新的 @keyframes */
+@keyframes priority-fire-pulse {
+    0% {
+        transform: scale(1);
+        /* 內圈金光 + 外圈橘光 */
+        box-shadow: 0 0 10px 3px rgba(255, 220, 0, 0.8), 
+                    0 0 15px 8px rgba(255, 100, 0, 0.6);
+    }
+    50% {
+        transform: scale(1.05); /* 按鈕放大 5% */
+        /* 光暈擴散並變淡 */
+        box-shadow: 0 0 20px 10px rgba(255, 220, 0, 0.4), 
+                    0 0 30px 20px rgba(255, 100, 0, 0);
+    }
+    100% {
+        transform: scale(1);
+        /* 恢復原狀，形成呼吸感 */
+        box-shadow: 0 0 10px 3px rgba(255, 220, 0, 0.8), 
+                    0 0 15px 8px rgba(255, 100, 0, 0.6);
+    }
+}
+/* 主要內容區塊：改成半透明黑底 + 模糊濾鏡 */
+.card {
+    /* 移除原本的純白背景 */
+    background: rgba(20, 20, 30, 0.75);
+    
+    /* 加入毛玻璃效果 (背景模糊) */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* 加上細微的邊框，像戰術面板 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* 銳利化：圓角變小 */
+    border-radius: 4px;
+    
+    /* 讓上面的文字變成白色 */
+    color: #fff;
+    
+    /* 加一點發光陰影 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* 讓所有標題文字確保是白色 */
+.card h2, .card h3, .card h4, .card p, .card li {
+    color: #fff;
+}
+/* 針對所有「會員方案」的小卡片 */
+/* 這裡用屬性選取器抓取有 border 的 div，或者你可以回 HTML 加 class */
+#home > div > div > div[style*="border"] {
+    /* 移除白底，改透明 */
+    background: rgba(0, 0, 0, 0.4);
+    
+    /* 銳利化 */
+    border-radius: 2px;
+    
+    /* 文字變白 */
+    color: white;
+    
+    /* 加入一點科技感的內陰影 */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    
+    /* 讓它 hover 時會發亮 */
+    transition: all 0.3s ease;
+}
+
+#home > div > div > div[style*="border"]:hover {
+    transform: translateY(-5px);
+    /* 讓邊框發光 */
+    box-shadow: 0 0 15px currentColor; 
+}
+
+/* 修正卡片裡面的價格文字顏色 */
+#home > div > div > div .price, 
+#home > div > div > div div { 
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+/* 分頁按鈕容器 */
+.tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* 分頁按鈕本體 */
+.tab {
+    padding: 12px 24px;
+    background: transparent; /* 移除灰底 */
+    border-radius: 0; /* 完全直角 */
+    color: #aaa; /* 未選中時是灰色 */
+    border: 1px solid transparent;
+    border-bottom: none;
+    position: relative;
+    font-family: 'Courier New', monospace; /* 換成等寬字體更有科技感 */
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+    width: auto;
+}
+
+/* 滑鼠移過去 */
+.tab:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* 選中狀態 (Active) */
+.tab.active {
+    background: rgba(102, 126, 234, 0.2); /* 淡淡的藍底 */
+    color: #fff;
+    border: 1px solid #667eea; /* 藍色邊框 */
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3); /* 藍色光暈 */
+}
+/* 所有的輸入框 (Input) */
+input, select, textarea {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: white;
+    border-radius: 2px; /* 銳利化 */
+}
+
+input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+}
+
+/* 右上角的用戶資訊小藥丸 */
+.user-info {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px; /* 改成小圓角 */
+    color: white;
+}
+.user-info .name {
+    color: white;
+}
+/* --- 修正內部區塊顏色 (避免出現突兀的灰底) --- */
+
+/* 1. 遊戲場次資訊卡、排隊卡、警告框 */
+.game-session-card, 
+.queue-card, 
+.warning-box,
+.queue-status,
+.member-list-box {
+    /* 把原本的 #f9f9f9 改成深色半透明 */
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* 2. 排隊列表的單個項目 / 會員列表項目 */
+.queue-item, 
+.member-item, 
+.code-item {
+    /* 讓條列式項目比背景稍微亮一點點，增加層次 */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #eee !important;
+}
+
+/* 3. 修正排隊列表裡的小字顏色 (原本是灰色 #666，在黑底會看不見) */
+.queue-item div[style*="color: #666"],
+.queue-position + div[style*="color: #666"] {
+    color: #aaa !important; /* 改成淺灰，才看得到 */
+}
+
+/* 4. 讓目前輪到的排隊項目 (綠色) 變成螢光綠風格 */
+.queue-item.current {
+    background: rgba(40, 167, 69, 0.2) !important; /* 半透明綠 */
+    border: 1px solid #28a745 !important;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);
+}
+/* 修改 Placeholder 顏色 */
+::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* 修改下拉選單 (Select) 的選項顏色 */
+/* 因為 Select 的 dropdown 背景通常無法透明，這能確保文字在白底/黑底都清楚 */
+option {
+    background: #222;
+    color: #fff;
+}
+/* =========================================
+   ▼▼▼ S級電競風格補丁 ▼▼▼
+   ========================================= */
+
+/* 1. 全域字體：標題加粗 */
+body, button, input, select, textarea, .header h1, .header p {
+    font-family: 'Orbitron', 'Noto Sans TC', sans-serif !important;
+}
+h1, h2, h3, h4, h5, h6, .btn, strong, b {
+    font-weight: 900 !important;
+    letter-spacing: 1px;
+}
+
+/* 2. 方案區塊基礎樣式 */
+.plan-section {
+    margin-bottom: 30px;
+}
+
+.plan-title {
+    margin-bottom: 10px;
+}
+
+.plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.plan-card {
+    background: linear-gradient(135deg, rgba(16, 20, 28, 0.96), rgba(7, 10, 16, 0.98));
+    padding: 26px 20px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    will-change: transform;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-width: 0;
+    border: 3px solid transparent;
+    clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42), inset 0 0 50px rgba(0, 0, 0, 0.45);
+}
+
+.plan-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 65%);
+}
+
+.plan-card:hover {
+    filter: brightness(1.2) !important;
+    transform: translateY(-6px) scale(1.03) !important;
+    transition-delay: 0s !important;
+}
+.plan-price {
+    font-size: 2em;
+    color: #00f3ff;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 1), 0 0 40px rgba(0, 243, 255, 0.5);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 10px 0;
+}
+
+.plan-duration {
+    color: #e7e7e7;
+    font-weight: bold;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* 3. 方案配色：三色能量盾 */
+/* 黃金會員 */
+.plan-gold .plan-title {
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+.plan-gold .plan-card {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(16, 20, 28, 0.96));
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 50px rgba(255, 215, 0, 0.15);
+}
+
+/* 鑽石會員 */
+.plan-diamond .plan-title {
+    color: #00C6FF;
+    text-shadow: 0 0 20px rgba(0, 198, 255, 0.8);
+}
+.plan-diamond .plan-card {
+    border-color: #00C6FF;
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.15), rgba(16, 20, 28, 0.96));
+    box-shadow: 0 0 30px rgba(0, 198, 255, 0.4), inset 0 0 50px rgba(0, 198, 255, 0.15);
+}
+
+/* 傳說會員 */
+.plan-legend .plan-title {
+    color: #FF0055;
+    text-shadow: 0 0 20px rgba(255, 0, 85, 0.8);
+}
+.plan-legend .plan-card {
+    border-color: #FF0055;
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.15), rgba(16, 20, 28, 0.96));
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.4), inset 0 0 50px rgba(255, 0, 85, 0.15);
+}
+
+/* 黃金卡片懸浮發光 */
+.plan-gold .plan-card:hover {
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.8),
+                0 0 35px rgba(255, 215, 0, 0.6),
+                inset 0 0 50px rgba(255, 215, 0, 0.2);
+}
+
+/* 鑽石卡片懸浮發光 */
+.plan-diamond .plan-card:hover {
+    box-shadow: 0 10px 40px rgba(0, 198, 255, 0.8),
+                0 0 35px rgba(0, 198, 255, 0.6),
+                inset 0 0 50px rgba(0, 198, 255, 0.2);
+}
+
+/* 傳說卡片懸浮發光 */
+.plan-legend .plan-card:hover {
+    box-shadow: 0 10px 40px rgba(255, 0, 85, 0.8),
+                0 0 35px rgba(255, 0, 85, 0.6),
+                inset 0 0 50px rgba(255, 0, 85, 0.2);
+}
+
+/* 首頁會員方案改為 member 頁同款展示 */
+.home-member-showcase .tier-grid {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.home-member-showcase .tier-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+
+
+    .purchase-grid,
+    .purchase-duration-grid,
+    .purchase-bottom-layout {
+        grid-template-columns: 1fr;
+    }
+.home-member-showcase .member-tier-card {
+    width: 100%;
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px solid transparent;
+    min-height: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.home-member-showcase .member-tier-card h2 {
+    font-size: 2.2em;
+    margin-bottom: 15px;
+}
+
+.home-member-showcase .member-tier-card p,
+.home-member-showcase .member-tier-card li {
+    font-size: 1.1em;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+.home-member-showcase .member-list-box {
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.home-member-showcase .member-list-box h4 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.home-member-showcase .member-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 30px;
+}
+
+.home-member-showcase .price-section {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.home-member-showcase .price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+}
+
+.home-member-showcase .price-box {
+    padding: 15px 10px;
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.home-member-showcase .price-box .price {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.home-member-showcase .price-box .duration {
+    font-size: 0.9em;
+    color: #f0f0f0;
+}
+
+.home-member-showcase .tier-legend,
+.home-member-showcase .tier-legend-list {
+    border-color: #ff0055 !important;
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.2), rgba(16, 20, 28, 0.95)) !important;
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.25), inset 0 0 20px rgba(255, 0, 85, 0.1) !important;
+    animation: none !important;
+    filter: none !important;
+    color: inherit !important;
+}
+
+.home-member-showcase .tier-legend h2,
+.home-member-showcase .tier-legend-list h4 {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 0, 85, 0.85), 0 0 24px rgba(255, 0, 85, 0.45);
+}
+
+.home-member-showcase .tier-diamond,
+.home-member-showcase .tier-diamond-list {
+    border-color: #00c6ff !important;
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.2), rgba(16, 20, 28, 0.95)) !important;
+    box-shadow: 0 0 30px rgba(0, 198, 255, 0.25), inset 0 0 20px rgba(0, 198, 255, 0.1) !important;
+    animation: none !important;
+    filter: none !important;
+    color: inherit !important;
+}
+
+.home-member-showcase .tier-diamond h2,
+.home-member-showcase .tier-diamond-list h4 {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(0, 198, 255, 0.85), 0 0 24px rgba(0, 198, 255, 0.45);
+}
+
+.home-member-showcase .tier-gold,
+.home-member-showcase .tier-gold-list {
+    border-color: #ffd700 !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(16, 20, 28, 0.95)) !important;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.25), inset 0 0 20px rgba(255, 215, 0, 0.1) !important;
+    animation: none !important;
+    filter: none !important;
+    color: inherit !important;
+}
+
+.home-member-showcase .tier-gold h2,
+.home-member-showcase .tier-gold-list h4 {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.85), 0 0 24px rgba(255, 215, 0, 0.45);
+}
+
+.purchase-page-card {
+    background: linear-gradient(135deg, rgba(8, 16, 32, 0.95), rgba(4, 8, 18, 0.98));
+}
+
+.purchase-title {
+    color: #39ff14;
+    text-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+    margin-bottom: 10px;
+}
+
+.purchase-subtitle {
+    color: #c8d2df;
+    margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+.purchase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.purchase-tier-card {
+    border: 2px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(135deg, rgba(20, 28, 42, 0.96), rgba(6, 10, 18, 0.98));
+    padding: 24px;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.purchase-tier-card:hover {
+    transform: translateY(-4px);
+}
+
+.purchase-tier-card h3 {
+    color: #fff;
+    font-size: 1.7em;
+    margin: 10px 0 12px;
+}
+
+.purchase-tier-card p,
+.purchase-tier-card li {
+    color: #d8dee6;
+    line-height: 1.7;
+}
+
+.purchase-tier-card ul {
+    padding-left: 22px;
+    margin-top: 14px;
+}
+
+.purchase-tier-icon {
+    font-size: 2em;
+}
+
+.purchase-tier-card.active {
+    transform: translateY(-4px);
+}
+
+.purchase-legend {
+    background: linear-gradient(135deg, rgba(55, 6, 20, 0.82), rgba(18, 3, 10, 0.96));
+    border-color: rgba(255, 0, 85, 0.28);
+}
+
+.purchase-diamond {
+    background: linear-gradient(135deg, rgba(4, 24, 52, 0.82), rgba(2, 8, 20, 0.96));
+    border-color: rgba(0, 198, 255, 0.28);
+}
+
+.purchase-gold {
+    background: linear-gradient(135deg, rgba(42, 30, 2, 0.82), rgba(16, 12, 1, 0.96));
+    border-color: rgba(255, 215, 0, 0.28);
+}
+
+.purchase-legend.active {
+    border-color: #ff0055;
+    background: linear-gradient(135deg, rgba(80, 8, 28, 0.92), rgba(30, 4, 14, 0.98));
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.28), inset 0 0 18px rgba(255, 0, 85, 0.12);
+}
+
+.purchase-diamond.active {
+    border-color: #00c6ff;
+    background: linear-gradient(135deg, rgba(6, 36, 72, 0.92), rgba(3, 12, 28, 0.98));
+    box-shadow: 0 0 25px rgba(0, 198, 255, 0.28), inset 0 0 18px rgba(0, 198, 255, 0.12);
+}
+
+.purchase-gold.active {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, rgba(60, 42, 2, 0.92), rgba(24, 18, 1, 0.98));
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.28), inset 0 0 18px rgba(255, 215, 0, 0.12);
+}
+
+.purchase-bottom-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: 20px;
+}
+
+.purchase-duration-panel,
+.purchase-summary-panel {
+    background: rgba(4, 10, 20, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.purchase-duration-panel h3,
+.purchase-summary-panel h3 {
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.purchase-duration-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.purchase-duration-btn {
+    background: linear-gradient(135deg, rgba(12, 18, 30, 0.96), rgba(5, 8, 16, 0.98)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #fff !important;
+    padding: 18px 12px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.purchase-duration-btn.active {
+    border-color: #39ff14 !important;
+    box-shadow: 0 0 18px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.08) !important;
+}
+
+.purchase-duration-label {
+    font-size: 1.05em;
+}
+
+.purchase-duration-days {
+    font-size: 0.88em;
+    color: #97a5b4;
+}
+
+.purchase-duration-price {
+    font-size: 1.35em;
+    color: #39ff14;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.purchase-summary-box {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.purchase-summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cfd7e0;
+}
+
+.purchase-summary-row strong {
+    color: #fff;
+}
+
+.purchase-note-box {
+    background: rgba(57, 255, 20, 0.08);
+    border: 1px solid rgba(57, 255, 20, 0.18);
+    color: #dce8d2;
+    padding: 14px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.purchase-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.purchase-order-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: 1.1em;
+}
+
+/* 4. 標記 (Badges) 切角造型 */
+.badge, .badge-admin, .member-badge {
+    border-radius: 0px !important;
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px) !important;
+    padding: 5px 15px !important;
+    text-transform: uppercase;
+    font-family: 'Orbitron', sans-serif !important;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* 5. 【修復】英文標題換行 & 頂部擁擠問題 */
+.top-bar {
+    flex-wrap: nowrap !important; /* 強制不換行 */
+    gap: 20px;
+}
+
+.header {
+    flex: 1; /* 讓標題區塊佔據剩餘空間 */
+    min-width: 0; /* 防止文字溢出 */
+    white-space: nowrap;
+}
+
+.header h1 {
+    /* 自動縮放字體：最小 18px，理想 2.5vw，最大 36px */
+    font-size: clamp(18px, 2.5vw, 36px) !important; 
+    margin-bottom: 0 !important;
+    line-height: 1.2;
+}
+
+.header p {
+    display: none; /* 【建議】手機或擁擠時隱藏副標題，讓畫面更乾淨 */
+}
+@media (min-width: 1024px) {
+    .header p { display: block; } /* 電腦版才顯示副標題 */
+}
+
+/* 右上角使用者區塊優化 */
+.user-section {
+    flex-shrink: 0; /* 防止被壓縮 */
+    gap: 8px !important;
+}
+
+/* 讓按鈕小一點，塞進去 */
+.user-section .btn, 
+.user-section .btn-small {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+}
+
+/* 隱藏語言切換的中間分隔線 */
+/* ======================================================
+   ▼▼▼ 首頁與會員頁視覺樣式 ▼▼▼
+   ====================================================== */
+
+/* 讓「如何註冊」標題變螢光青色 */
+#home h3 {
+    color: #00f3ff;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+    border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* 讓列表文字清楚可見 (亮灰色) */
+#home ol li {
+    color: #e0e0e0;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* 讓重點文字 (例如: 6位兌換碼) 變成金色 */
+#home ol li strong {
+    color: #FFD700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+}
+
+
+/* --- 2. 修復我的會員「個人資料卡」 (原本是紫色漸層) --- */
+
+/* 把原本紫色的 .member-info 改成深色玻璃戰術面板 */
+.member-info {
+    /* 移除原本的紫色漸層，改用深黑透明底 */
+    background: rgba(16, 20, 28, 0.85);
+    
+    /* 加入毛玻璃效果 */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* 加上戰術邊框 (稍微帶點紫色呼應主題) */
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    
+    /* 內發光效果，增加科技感 */
+    box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(102, 126, 234, 0.1);
+}
+
+/* 修正裡面分隔線的顏色 */
+.info-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 讓標題 (👤 暱稱) 稍微亮一點 */
+.member-info h2 {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+/* ==========================================================================
+   ▼▼▼ 全站軍事化統整補丁 (Universal Tactical Patch) - 去除所有圓角 ▼▼▼
+   ========================================================================== */
+
+/* 1. 【按鈕】強制變成「切角多邊形」 (包含複製、編輯、刪除、語言切換) */
+button, .btn, .btn-small, .btn-copy, .modal-close {
+    border-radius: 0px !important; /* 殺死圓角 */
+    /* 製作左上與右下的切角造型 */
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+    font-family: 'Orbitron', sans-serif !important; /* 確保字體是科技感 */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700 !important;
+    border: none !important;
+    transition: all 0.2s ease;
+}
+
+/* 讓小按鈕的切角稍微小一點，不然字會被切掉 */
+.btn-small, .btn-copy {
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px) !important;
+    padding: 5px 15px !important;
+}
+
+/* 滑鼠移過效果 (發光) */
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.2);
+    box-shadow: 0 0 15px currentColor; /* 跟隨按鈕原本的顏色發光 */
+}
+
+/* 2. 【輸入框】變成「終端機風格」 (直角、深黑底) */
+input, select, textarea {
+    border-radius: 0px !important; /* 直角 */
+    background: rgba(0, 0, 0, 0.7) !important; /* 深黑底 */
+    border: 1px solid #444 !important; /* 灰色細邊框 */
+    color: #00f3ff !important; /* 輸入文字變螢光青色 */
+    font-family: 'Orbitron', 'Noto Sans TC', sans-serif !important;
+    padding: 10px !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #00f3ff !important; /* 聚焦時邊框變亮 */
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2) !important;
+    outline: none;
+}
+
+/* 3. 【卡片與容器】變成「硬派方塊」 (包含後台區塊、彈出視窗) */
+.card, .modal-content, .admin-panel, .member-info, .game-session-card, .queue-card, .warning-box {
+    border-radius: 2px !important; /* 極小圓角 (幾乎是直角) */
+    background: rgba(16, 20, 28, 0.95) !important; /* 統一深色玻璃底 */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; /* 微光邊框 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6) !important;
+    color: #fff !important;
+}
+
+/* 4. 【彈出視窗 Modal】特別優化 */
+.modal-content {
+    border: 1px solid #667eea !important; /* 彩窗加強邊框 */
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8) !important;
+}
+.modal-header h2 {
+    color: #00f3ff !important;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* 5. 【標籤 Badge】變成切角造型 */
+.badge, .badge-admin, .member-badge {
+    border-radius: 0px !important;
+    clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px) !important;
+    text-transform: uppercase;
+}
+
+/* 6. 【複製按鈕】特別顏色修正 */
+.btn-copy {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+}
+
+/* 7. 【開關 Switch】方塊化 (針對排隊頁面的 Toggle) */
+.slider {
+    border-radius: 2px !important; /* 直角開關背景 */
+}
+.slider:before {
+    border-radius: 2px !important; /* 直角開關按鈕 */
+}
+/* ========================================================================
+   ▼▼▼ 最終外觀修正：按鈕全面「螢光外框化」 (Neon Outline Buttons) ▼▼▼
+   ======================================================================== */
+
+/* 1. 通用按鈕基礎設定 (重置背景，改用邊框) */
+button, .btn, .btn-small, .btn-copy, .modal-close {
+    background: transparent; /* 移除原本的漸層填色，變透明 */
+    border-width: 2px; /* 設定邊框寬度 */
+    border-style: solid; /* 設定為實線 */
+    
+    /* 保持之前的切角造型和科技字體 */
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 10px 25px; /* 稍微調整內距讓框線好看點 */
+}
+
+/* 小按鈕切角調整 */
+.btn-small, .btn-copy {
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+    padding: 5px 15px;
+}
+
+/* 2. 預設按鈕 (原本是紫粉色) -> 改成「螢光青色外框」 */
+.btn, .btn-copy {
+    border-color: #00f3ff; /* 青色邊框 */
+    color: #00f3ff; /* 青色文字 */
+    /* 平常狀態：淡淡的內外發光 */
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3), inset 0 0 5px rgba(0, 243, 255, 0.1); 
+}
+/* 滑鼠移過預設按鈕：強力發光 + 微微填滿背景 */
+.btn:hover, .btn-copy:hover {
+    background: rgba(0, 243, 255, 0.1); 
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.8), inset 0 0 10px rgba(0, 243, 255, 0.5); 
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.8); /* 文字也發光 */
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* 3. 成功/綠色按鈕 (例如:註冊) -> 改成「螢光毒綠色外框」 */
+.btn-success {
+    border-color: #39ff14; /* 螢光毒綠 */
+    color: #39ff14;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3), inset 0 0 5px rgba(57, 255, 20, 0.1);
+}
+.btn-success:hover {
+    background: rgba(57, 255, 20, 0.1);
+    box-shadow: 0 0 25px rgba(57, 255, 20, 0.8), inset 0 0 10px rgba(57, 255, 20, 0.5);
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.8);
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* 4. 危險/紅色按鈕 (例如:登出/刪除) -> 改成「螢光緋紅色外框」 */
+.btn-danger, .modal-close {
+    border-color: #ff0055; /* 螢光緋紅 */
+    color: #ff0055;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.3), inset 0 0 5px rgba(255, 0, 85, 0.1);
+}
+.btn-danger:hover, .modal-close:hover {
+    background: rgba(255, 0, 85, 0.1);
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.8), inset 0 0 10px rgba(255, 0, 85, 0.5);
+    text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* 5. 語言切換按鈕特別處理 (簡潔的方塊線條) */
+/* ========================================================================
+   ▼▼▼ 最終定版：萊姆綠 & 螢光紫 (Joker/Cyberpunk 配色) ▼▼▼
+   ======================================================================== */
+
+/* 1. 【核心重置】強制殺死所有按鈕的背景色與漸層 (解決紅色背景問題) */
+button, .btn, .btn-small, .btn-copy, .modal-close, .btn-danger, .btn-success {
+    background-color: transparent !important;
+    background-image: none !important; /* 關鍵！移除紅色漸層 */
+    border-style: solid !important;
+    border-width: 2px !important;
+    box-shadow: none !important;
+    
+    /* 造型設定 */
+    border-radius: 0px !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+    font-family: 'Orbitron', sans-serif !important;
+    text-transform: uppercase;
+    font-weight: 900 !important;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    padding: 8px 24px !important;
+    opacity: 1 !important;
+}
+
+/* 小按鈕切角修正 */
+.btn-small, .btn-copy, .modal-close {
+     clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px) !important;
+     padding: 5px 15px !important;
+}
+
+/* ================== 配色分配 ================== */
+
+/* 2. 【螢光萊姆綠組】 (一般按鈕、複製、返回、登入) */
+/* 使用 #39ff14 (Neon Lime) */
+.btn, .btn-copy {
+    border-color: #39ff14 !important; /* 萊姆綠邊框 */
+    color: #39ff14 !important; /* 萊姆綠文字 */
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5); /* 文字微光 */
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3), inset 0 0 5px rgba(57, 255, 20, 0.1) !important;
+}
+
+/* 滑鼠移過萊姆綠按鈕 */
+.btn:hover, .btn-copy:hover:hover {
+    background-color: rgba(57, 255, 20, 0.1) !important; /* 微微填滿綠色 */
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.8), inset 0 0 10px rgba(57, 255, 20, 0.5) !important;
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.8);
+    transform: translateY(-2px);
+    border-color: #39ff14 !important;
+}
+
+/* 3. 【螢光紫色組】 (註冊、確認、登出、刪除、危險操作) */
+/* 使用 #bd00ff (Electric Purple) */
+.btn-success, .btn-danger, .modal-close {
+    border-color: #bd00ff !important; /* 螢光紫邊框 */
+    color: #bd00ff !important; /* 螢光紫文字 */
+    text-shadow: 0 0 5px rgba(189, 0, 255, 0.5);
+    box-shadow: 0 0 10px rgba(189, 0, 255, 0.3), inset 0 0 5px rgba(189, 0, 255, 0.1) !important;
+}
+
+/* 滑鼠移過紫色按鈕 */
+.btn-success:hover, .btn-danger:hover, .modal-close:hover {
+    background-color: rgba(189, 0, 255, 0.1) !important; /* 微微填滿紫色 */
+    box-shadow: 0 0 20px rgba(189, 0, 255, 0.8), inset 0 0 10px rgba(189, 0, 255, 0.5) !important;
+    text-shadow: 0 0 8px rgba(189, 0, 255, 0.8);
+    transform: translateY(-2px);
+    border-color: #bd00ff !important;
+}
+
+/* 4. 語言按鈕特別微調 (平常低調，滑鼠移過去變萊姆綠) */
+/* ========================================================================
+   ▼▼▼ 文字能見度修復補丁：解決黑底看不見字的問題 (Visibility Fix) ▼▼▼
+   ======================================================================== */
+
+/* 1. 【輸入框標題】強制變白 (解決「場次名稱」、「預計開始時間」看不見) */
+.input-group label {
+    color: #ffffff !important; /* 純白文字 */
+    font-weight: bold !important;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* 加一點黑陰影，對比更強 */
+    letter-spacing: 1px;
+}
+
+/* 2. 【小註解文字】 (例如：選填、留空則為立即) */
+.input-group label .optional, 
+small {
+    color: #aaaaaa !important; /* 亮灰色 */
+    font-weight: normal;
+}
+
+/* 3. 【後台分頁按鈕】 (未使用、已使用) */
+.sub-tab {
+    color: #cccccc !important; /* 未選中時：亮灰色 (原本太暗了) */
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+/* 滑鼠移過去變白 */
+.sub-tab:hover {
+    color: #ffffff !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* 選中狀態：變成帥氣的螢光萊姆綠 (跟主色系統一) */
+.sub-tab.active {
+    color: #39ff14 !important; /* 螢光萊姆綠 */
+    border-bottom: 2px solid #39ff14 !important;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+/* 4. 【修正表格/列表內的文字】 (確保排隊名單、兌換碼列表文字清楚) */
+.queue-item div, 
+.member-item div, 
+.code-item div {
+    color: #e0e0e0 !important; /* 亮灰白 */
+}
+
+/* 針對列表裡的小字 (例如 UID、日期) */
+.queue-item div[style*="color: #666"], 
+.member-item div[style*="color: #666"],
+.code-item div[style*="color: #666"],
+.game-session-info {
+    color: #aaaaaa !important; /* 淺灰，不要用深灰 */
+}
+/* =========================================================
+   ▼▼▼ [超強版] 修復：優先排隊區塊背景白色的問題 ▼▼▼
+   ========================================================= */
+
+/* 1. 針對 ID 為 priority-queue-controls 的容器 (如果有的話) */
+#priority-queue-controls,
+.priority-queue-controls {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* 2. 針對所有在 #queue-card 裡面的白色背景元素 */
+#queue-card .well,
+#queue-card div[style*="background"],
+#queue-card .input-group-addon,
+#queue-card .form-control {
+    background-color: rgba(0, 0, 0, 0.3) !important; /* 強制變深色半透明 */
+    background-image: none !important; /* 移除可能存在的漸層 */
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+}
+
+/* 3. 特別針對 switch 開關旁邊的文字 */
+.priority-quota-display,
+.priority-quota-display small {
+    color: #fff !important;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+/* =========================================================
+   ▼▼▼ [修正版] 特效：優先排隊按鈕「閃電雷射」效果 ▼▼▼
+   ========================================================= */
+
+/* 定義動畫 */
+@keyframes lightning-flash {
+    0% { left: -150%; opacity: 0; }
+    20% { opacity: 1; }
+    100% { left: 150%; opacity: 0; }
+}
+
+/* 1. 針對「一鍵排隊」按鈕 (同時選取 ID 和 Class) */
+#btnJoinQueue, 
+.btn-join-queue,
+button[onclick="joinQueue()"] {
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* 2. 當加上 .priority-glow 類別時的樣式 (琥珀金) */
+#btnJoinQueue.priority-glow,
+.btn.priority-glow {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+    border: 2px solid #FFD700 !important;
+    color: #000 !important; /* 黑字 */
+    font-weight: 900 !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6) !important;
+}
+
+/* 3. 閃電光束特效 (只有在 .priority-glow 狀態下才出現) */
+#btnJoinQueue.priority-glow::before,
+.btn.priority-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.9) 50%, transparent 100%);
+    transform: skewX(-25deg);
+    animation: lightning-flash 1.2s infinite linear;
+    pointer-events: none;
+    z-index: 2;
+}
+/* ========================================================================
+   ▼▼▼ [終極修復] 絕對強制閃電特效 (Super Flash Patch) ▼▼▼
+   ======================================================================== */
+
+/* 1. 定義全新的動畫名稱 (避開之前的 lightning-flash 衝突) */
+@keyframes super-flash-move {
+    0% {
+        left: -150%;
+        opacity: 0;
+    }
+    1% {
+        opacity: 1; /* 一開始就全亮 */
+    }
+    50% {
+        opacity: 1; /* 中間保持亮 */
+    }
+    100% {
+        left: 200%; /* 衝到更遠的地方，確保完全離開 */
+        opacity: 0;
+    }
+}
+
+/* 2. 針對按鈕本體：確保它能關住閃電 (overflow: hidden) */
+#btnJoinQueue.priority-glow {
+    position: relative !important;
+    overflow: hidden !important;
+    /* 這裡再次強制設定背景，以防 JS 沒吃到 */
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
+    border: 2px solid #FFD700 !important;
+    color: #000 !important;
+    font-weight: 900 !important;
+    /* 讓按鈕發出強烈金光 */
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8) !important;
+    z-index: 1 !important;
+}
+
+/* 3. 針對閃電光束 (使用 ::after 偽元素) */
+#btnJoinQueue.priority-glow::after {
+    content: "" !important; /* 絕對不能少 */
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -150% !important;
+    
+    /* ⚡⚡⚡ 設定一道非常寬、非常亮的白光 ⚡⚡⚡ */
+    width: 80% !important; 
+    height: 100% !important;
+    
+    /* 強烈對比的白色光束 */
+    background: linear-gradient(
+        120deg, 
+        transparent 20%, 
+        rgba(255, 255, 255, 0.8) 40%, 
+        rgba(255, 255, 255, 1) 50%, 
+        rgba(255, 255, 255, 0.8) 60%, 
+        transparent 80%
+    ) !important;
+    
+    /* 傾斜角度 */
+    transform: skewX(-25deg) !important;
+    
+    /* 套用新動畫：0.8秒跑一次，無限循環 */
+    animation: super-flash-move 0.8s infinite linear !important;
+    
+    /* 確保光束在文字上面，但不會擋住點擊 */
+    pointer-events: none !important;
+    z-index: 999 !important; 
+}
+
+/* ========================================================================
+   ▼▼▼ [NEW] 智慧報價計算機樣式 (Calculator Integration) ▼▼▼
+   ======================================================================== */
+
+/* 佈局設定 */
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .calc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 服務選擇器 (大按鈕) */
+.service-toggle-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.service-option {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.service-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.service-option .icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.service-option .label {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.service-option .sub-label {
+    font-size: 0.8em;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* 啟動狀態：代打 (藍色/青色) */
+.service-option.active#optBoost {
+    border-color: #00f3ff;
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+.service-option.active#optBoost .label { color: #00f3ff; }
+
+/* 啟動狀態：護航 (紫色/金色) */
+.service-option.active#optCarry {
+    border-color: #ffd54f;
+    background: linear-gradient(145deg, rgba(255, 213, 79, 0.2), rgba(255, 168, 0, 0.08) 45%, rgba(0, 0, 0, 0.58));
+    box-shadow: 0 0 34px rgba(255, 213, 79, 0.92), 0 0 76px rgba(255, 184, 0, 0.62), inset 0 0 28px rgba(255, 224, 130, 0.28);
+    animation: royal-carry-glow 1.15s infinite ease-in-out, gold-flash-shimmer 2s infinite;
+    will-change: transform, box-shadow;
+    position: relative;
+}
+.service-option.active#optCarry .label { 
+    color: #ffd54f;
+}
+
+.carry-corner-crown {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.8em;
+    text-shadow: 0 0 8px rgba(255, 213, 79, 0.8), 0 0 15px rgba(255, 184, 0, 0.6);
+    animation: crown-sparkle 1.5s infinite ease-in-out;
+    transform-origin: center;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#optCarry.active ~ .carry-corner-crown {
+    opacity: 1;
+}
+
+.service-option.active#optCarry::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    transform: skewX(-20deg);
+    animation: glass-reflect 2.5s infinite;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.service-option.active#optCarry::after {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border: 2px solid rgba(255, 222, 120, 0.8);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    filter: blur(10px);
+    opacity: 0.98;
+    pointer-events: none;
+    animation: royal-carry-ring 1.15s infinite ease-in-out;
+}
+
+@keyframes royal-carry-glow {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 22px rgba(255, 213, 79, 0.72), 0 0 46px rgba(255, 184, 0, 0.42), 0 0 86px rgba(255, 184, 0, 0.28), inset 0 0 18px rgba(255, 224, 130, 0.2);
+    }
+    50% {
+        transform: scale(1.035);
+        box-shadow: 0 0 42px rgba(255, 213, 79, 1), 0 0 96px rgba(255, 184, 0, 0.78), 0 0 150px rgba(255, 184, 0, 0.48), inset 0 0 36px rgba(255, 224, 130, 0.38);
+    }
+}
+
+@keyframes royal-carry-ring {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.07);
+    }
+}
+
+@keyframes gold-flash-shimmer {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 213, 79, 0.4);
+    }
+    25% {
+        text-shadow: 0 0 20px rgba(255, 213, 79, 0.7), 0 0 30px rgba(255, 184, 0, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 30px rgba(255, 213, 79, 0.9), 0 0 50px rgba(255, 184, 0, 0.7);
+    }
+    75% {
+        text-shadow: 0 0 20px rgba(255, 213, 79, 0.7), 0 0 30px rgba(255, 184, 0, 0.5);
+    }
+}
+
+@keyframes crown-sparkle {
+    0%, 100% {
+        transform: translate(50%, -50%) scale(1) rotate(30deg);
+        text-shadow: 0 0 8px rgba(255, 213, 79, 0.8), 0 0 15px rgba(255, 184, 0, 0.6);
+    }
+    25% {
+        transform: translate(50%, -50%) scale(1.15) rotate(25deg);
+        text-shadow: 0 0 15px rgba(255, 213, 79, 1), 0 0 25px rgba(255, 184, 0, 0.8);
+    }
+    50% {
+        transform: translate(50%, -50%) scale(1) rotate(30deg);
+        text-shadow: 0 0 12px rgba(255, 213, 79, 0.9), 0 0 20px rgba(255, 184, 0, 0.7);
+    }
+    75% {
+        transform: translate(50%, -50%) scale(1.15) rotate(35deg);
+        text-shadow: 0 0 15px rgba(255, 213, 79, 1), 0 0 25px rgba(255, 184, 0, 0.8);
+    }
+}
+
+@keyframes glass-reflect {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.9;
+    }
+    100% {
+        left: 200%;
+        opacity: 0;
+    }
+}
+
+.calc-gold-flash-btn {
+    position: relative;
+    border-color: #ffd54f !important;
+    box-shadow: 0 0 16px rgba(255, 213, 79, 0.6), 0 0 30px rgba(255, 184, 0, 0.32) !important;
+    animation: gold-pulse 1.35s infinite ease-in-out;
+}
+
+.calc-gold-flash-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 24%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 240, 170, 0.95), rgba(255, 255, 255, 0));
+    transform: skewX(-22deg);
+    animation: gold-sweep 1.35s infinite;
+    pointer-events: none;
+}
+
+@keyframes gold-pulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 213, 79, 0.45), 0 0 22px rgba(255, 184, 0, 0.22);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(255, 213, 79, 0.85), 0 0 40px rgba(255, 184, 0, 0.45);
+    }
+}
+
+@keyframes gold-sweep {
+    0% {
+        left: -35%;
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.95;
+    }
+    100% {
+        left: 125%;
+        opacity: 0;
+    }
+}
+
+/* 價格顯示區 */
+.price-display {
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.price-display .currency {
+    font-size: 1.5em;
+    color: #aaa;
+    vertical-align: top;
+}
+
+.price-display .amount {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4em;
+    font-weight: 900;
+    color: #39ff14; /* 萊姆綠 */
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+/* 比較框 (勸退護航用) */
+.compare-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(57, 255, 20, 0.1), rgba(0, 0, 0, 0.8));
+    border: 1px solid #39ff14;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: pulse-border 2s infinite;
+}
+
+.compare-icon { font-size: 1.5em; }
+.compare-text { font-size: 0.9em; line-height: 1.4; color: #fff; }
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
+}
+
+/* 空狀態 */
+.empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: #888;
+}
+
+/* 新增：輸入面板和結果面板的卡片特別樣式 (避免被全域覆蓋) */
+.calc-input-panel, .calc-result-panel {
+    background: rgba(16, 20, 28, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5) !important;
+}
+/* --- 計算機子分頁樣式 --- */
+.sub-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.sub-tab {
+    background: transparent !important;
+    color: #aaa !important;
+    border: 1px solid transparent !important;
+    border-bottom: none !important;
+    padding: 8px 20px !important;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.sub-tab.active {
+    color: #00f3ff !important;
+    border: 1px solid #00f3ff !important;
+    background: rgba(0, 243, 255, 0.1) !important;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.sub-page {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+.sub-page.active {
+    display: block;
+}
+
+/* --- 計算明細 (Breakdown) --- */
+.calc-breakdown {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.breakdown-row:last-child {
+    border-bottom: none;
+}
+.breakdown-label { color: #aaa; }
+.breakdown-value { color: #fff; }
+.breakdown-total { color: #39ff14; font-weight: bold; border-top: 1px solid #fff; padding-top: 5px; margin-top: 5px;}
+
+/* --- 表格樣式 (價格算法) --- */
+.table-responsive {
+    overflow-x: auto;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 0.9em;
+}
+.data-table th, .data-table td {
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+.data-table th {
+    background: rgba(0, 243, 255, 0.1);
+    color: #00f3ff;
+}
+/* 當前週次的行高亮 */
+.current-week-row {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border: 1px solid #FFD700 !important;
+}
+
+/* --- 說明書樣式 --- */
+.manual-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.manual-section:last-child { border-bottom: none; }
+.manual-section h4 { margin-bottom: 15px; font-size: 1.2em; }
+.manual-section ul, .manual-section ol { padding-left: 20px; color: #ddd; line-height: 1.8; }
+.manual-section li { margin-bottom: 8px; }
+.manual-section strong { color: #fff; }
+/* --- 標題動畫特效 --- */
+
+/* 1. 設定原本的狀態 (加入過渡效果) */
+.header a {
+    display: inline-block;       /* 必須設定為區塊元素，動畫才會生效 */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 加入帶有彈性的平滑動畫 */
+    text-decoration: none;       /* 確保沒有底線 */
+    cursor: pointer;             /* 滑鼠變手指 */
+}
+
+/* 2. 設定滑鼠移上去的狀態 (放大) */
+.header a:hover {
+    transform: scale(1.08);      /* 放大 1.08 倍 (你可以依喜好改成 1.1 或 1.05) */
+}
+
+/* (選用) 讓副標題也跟著有一點顏色變化，增加互動感 */
+.header a:hover p {
+    color: #00f3ff;              /* 滑鼠移上去時，副標題變亮藍色 */
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+/* --- 表格斜線樣式 (代表不開放) --- */
+.closed-slot {
+    /* 使用線性漸層畫出對角線 */
+    background: linear-gradient(to top right, transparent calc(50% - 1px), #555 calc(50% - 1px), #555 calc(50% + 1px), transparent calc(50% + 1px)) !important;
+    position: relative;
+    cursor: not-allowed; /* 滑鼠移上去顯示禁止符號 */
+}
+
+/* (選用) 如果你想讓斜線那一格稍微暗一點，可以加這行 */
+.closed-slot {
+    background-color: rgba(0, 0, 0, 0.2) !important; 
+}
+/* =========================================
+   ▼▼▼ 彩窗動畫特效 (Pop-In Animation) ▼▼▼
+   ========================================= */
+
+/* 定義動畫：從 0.8倍大 + 透明 -> 1倍大 + 不透明 */
+@keyframes modalPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 當 Modal 加上 .active 時，裡面的 content 執行動畫 */
+.modal.active .modal-content {
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+/* =========================================
+   ▼▼▼ 修正：右側直式導航欄佈局 ▼▼▼
+   ========================================= */
+
+/* 1. 容器本身不用 flex（避免頂部被拉歪） */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    /* ❌ 移除這行：display: flex; */
+}
+
+/* 2. 新增：主內容區的 Flex 佈局 */
+.main-content-wrapper {
+    display: flex;
+    gap: 30px; /* 左右間距 */
+    align-items: flex-start;
+    margin-top: 30px; /* 與上方 top-bar 保持距離 */
+}
+
+/* 桌面版右側導航：固定直式排列 */
+.side-nav-right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 210px;
+    flex-shrink: 0;
+    align-items: stretch;
+}
+
+/* 3. 左側主要內容區 - 自動填滿剩餘空間 */
+.card {
+    flex: 1; /* 佔據剩餘寬度 */
+    min-width: 0; /* 防止被內容撐開 */
+}
+
+/* 4. 右側導航欄 - 固定寬度 */
+.vertical-nav {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 200px; /* 固定寬度 */
+    flex-shrink: 0; /* 不允許被壓縮 */
+}
+
+/* 5. 直式按鈕樣式（保持不變） */
+.tab-vertical {
+    padding: 15px 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #ccc;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    clip-path: polygon(
+        10px 0, 
+        100% 0, 
+        100% calc(100% - 10px), 
+        calc(100% - 10px) 100%, 
+        0 100%, 
+        0 10px
+    );
+}
+
+.tab-vertical:hover {
+    border-color: #00f3ff;
+    color: #00f3ff;
+    background: rgba(0, 243, 255, 0.05);
+    transform: translateX(-5px);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.tab-vertical.active {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(102, 126, 234, 0.2));
+    border-color: #00f3ff;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+    transform: translateX(-8px);
+}
+
+.tab-vertical.active::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 20%;
+    width: 4px;
+    height: 60%;
+    background: linear-gradient(180deg, transparent, #00f3ff, transparent);
+    box-shadow: 0 0 10px #00f3ff;
+}
+
+/* 6. 手機版適配 */
+/* ===== 手機版 (小螢幕) 佈局修正 ===== */
+@media (max-width: 768px) {
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* 由上至下排列 */
+        gap: 20px !important;
+    }
+
+    /* 1. 右側導航欄 (在手機版要移到上方) */
+    .side-nav-right {
+        order: 1 !important; /* 強制排在第一個 */
+        width: 100% !important;
+        flex-direction: row !important; /* 手機版橫向排列按鈕比較省空間 */
+        overflow-x: auto; /* 若按鈕太多可以左右滑動 */
+        position: static !important; /* 移除 sticky 以免擋住內容 */
+        padding: 5px 0;
+    }
+
+    /* 2. 左側主要內容卡片 (排在導航欄下方) */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在第二個 */
+        width: 100% !important;
+    }
+
+    /* 調整導航按鈕在手機上的寬度 */
+    .nav-btn {
+        flex: 1;
+        min-width: 100px;
+        padding: 10px 5px !important;
+        font-size: 14px !important;
+    }
+}/* ===== 響應式設計 ===== */
+
+/* 平板以下 (寬度 <= 1024px) */
+/* ===== 平板與手機版 (小於 1024px) 佈局修正 ===== */
+@media (max-width: 1024px) {
+    /* 讓容器變成垂直堆疊 */
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; 
+        gap: 20px !important;
+    }
+
+    /* 1. 右側導航欄 (移到上方，緊貼個人資料) */
+    .side-nav-right {
+        order: 1 !important; /* 強制排在第一個 */
+        width: 100% !important;
+        flex-direction: row !important; /* 橫向排列按鈕節省高度 */
+        overflow-x: auto; /* 若按鈕多可左右滑動 */
+        position: static !important;
+        padding: 5px 0;
+        gap: 10px !important;
+    }
+
+    /* 2. 主要內容卡片 (排在導航下方) */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在第二個 */
+        width: 100% !important;
+    }
+
+    .nav-btn {
+        flex: 1;
+        white-space: nowrap;
+        padding: 12px 10px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* 針對極小螢幕的微調 */
+@media (max-width: 480px) {
+    .nav-btn {
+        font-size: 13px !important;
+        padding: 10px 5px !important;
+    }
+}
+/* 手機 (寬度 <= 768px) */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.5em;
+    }
+
+    .header p {
+        font-size: 0.9em;
+    }
+
+    .user-section {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+.vertical-nav {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .tab-vertical {
+        height: 50px;
+        font-size: 0.95em;
+        transition: all 0.3s ease;
+    }
+
+    .tab-vertical:active {
+        transform: scale(0.98);
+    }
+
+    /* 計算器響應式 */
+    .calc-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .service-toggle-container {
+        flex-direction: column;
+    }
+
+    .service-option {
+        width: 100%;
+    }
+
+    /* 表格響應式 */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .data-table {
+        font-size: 0.85em;
+    }
+
+    /* Modal 響應式 */
+    .modal-content {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* 會員方案卡片 */
+    .plan-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-member-showcase .tier-grid {
+        flex-direction: column;
+    }
+
+    .home-member-showcase .member-tier-card {
+        min-height: auto;
+        padding: 22px;
+    }
+
+    /* 智慧報價子分頁按鈕也垂直堆疊 */
+    .sub-tabs {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .sub-tab {
+        width: 100%;
+        height: 45px;
+    }
+}
+
+/* 小手機 (寬度 <= 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .header h1 {
+        font-size: 1.2em;
+    }
+
+    .header p {
+        font-size: 0.8em;
+    }
+
+    .btn {
+        font-size: 0.9em;
+        padding: 10px 15px;
+    }
+
+    .btn-small {
+        border: 1px solid rgba(255,255,255,0.3);
+        color: rgba(255,255,255,0.6);
+        box-shadow: none;
+        clip-path: none; /* 語言按鈕不用切角 */
+        background: transparent;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        padding: 10px;
+        border-color: #00f3ff;
+        color: #00f3ff;
+        background: rgba(0, 243, 255, 0.1);
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        padding: 10px;
+    }
+
+    /* 計算器價格顯示 */
+    .price-display .currency {
+        font-size: 1.5em;
+    }
+
+    .price-display .amount {
+        font-size: 2.5em;
+    }
+
+    /* 輸入框 */
+    .input-group input,
+    .input-group select {
+        font-size: 14px;
+    }
+
+    /* 子分頁按鈕 */
+    .sub-tabs {
+        gap: 6px;
+    }
+
+    .sub-tab {
+        height: 42px;
+        font-size: 0.85em;
+    }
+
+    .plan-card {
+        padding: 22px 14px;
+    }
+
+    .plan-price {
+        font-size: 1.7em;
+        letter-spacing: 1px;
+    }
+
+    .plan-duration {
+        font-size: 0.95em;
+    }
+}
+
+/* 橫屏手機優化 */
+@media (max-width: 896px) and (orientation: landscape) {
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .top-bar {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 1.3em;
+    }
+
+    /* 橫屏時可選：改為橫向排列以節省空間 */
+    .vertical-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+    }
+
+    .tab-vertical {
+        min-width: 120px;
+        flex-shrink: 0;
+    }
+}
+
+/* 超窄螢幕 (寬度 <= 360px) */
+@media (max-width: 360px) {
+    .tab-vertical {
+        height: 45px;
+        font-size: 0.85em;
+    }
+
+    .sub-tab {
+        height: 40px;
+        font-size: 0.8em;
+        padding: 8px;
+    }
+}
+/* 會員資訊按鈕樣式 */
+.user-info-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    margin: 0 10px;
+}
+
+.user-info-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.user-info-btn:active {
+    transform: translateY(0);
+}
+
+.user-info-btn .user-name {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.user-info-btn .user-role {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.7);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .user-info-btn {
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .user-info-btn .user-name {
+        font-size: 0.9em;
+    }
+
+    .user-info-btn .user-role {
+        font-size: 0.7em;
+    }
+}
+/* 右側導航按鈕強化版 */
+.nav-btn {
+    background: rgba(0, 0, 0, 0.8) !important; /* 加深背景 */
+    color: #00f3ff !important;
+    border: 1px solid #00f3ff !important;
+    padding: 16px 20px;
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.5); /* 增加文字發光 */
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #00f3ff !important;
+    color: #000 !important;
+    box-shadow: -8px 0 25px rgba(0, 243, 255, 0.8);
+    text-shadow: none;
+}
+/* 會員個人資訊按鈕 */
+.user-info-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    padding: 8px 15px;
+    border: 1px solid #00f3ff !important;
+    background: rgba(0, 243, 255, 0.1) !important;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.user-info-btn:hover {
+    background: rgba(0, 243, 255, 0.3) !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+/* 會員等級標籤文字顏色 (補回原本鑽石等顏色) */
+.user-role {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #39ff14 !important; /* 會員等級顯示為螢光綠 */
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+
+/* 語言切換器位置修正 */
+/* =========================================================
+   ▼▼▼ 鑽石會員專屬：極致發光補丁 (Diamond Tier Ultra) ▼▼▼
+   ========================================================= */
+
+/* 1. 右上角個人資訊按鈕中的 [鑽石會員] 標籤 */
+.user-info-btn .user-role[style*="鑽石"], 
+.user-info-btn .user-role:contains('鑽石'),
+.user-info-btn .user-role {
+    /* 如果文字包含鑽石，套用以下樣式 */
+    background: linear-gradient(135deg, #00f3ff 0%, #0077ff 100%) !important;
+    color: #ffffff !important;
+    background-clip: initial !important;
+    -webkit-background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+    padding: 2px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.8) !important;
+    border: 1px solid #ffffff !important;
+    animation: diamond-pulse 2s infinite; /* 加入呼吸燈動畫 */
+}
+
+/* 2. 首頁「會員方案」中的鑽石會員卡片 */
+#home h4[style*="00B4DB"] + div > div {
+    border: 3px solid #00f3ff !important; /* 邊框加粗 */
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(0, 0, 0, 0.9)) !important;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 20px rgba(0, 243, 255, 0.2) !important;
+}
+
+/* 鑽石卡片內的價格文字 */
+#home h4[style*="00B4DB"] + div > div div:first-child {
+    color: #ffffff !important;
+    text-shadow: 0 0 15px #00f3ff, 0 0 30px #00f3ff !important;
+}
+
+/* 3. 鑽石專屬呼吸燈動畫 */
+@keyframes diamond-pulse {
+    0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.6); filter: brightness(1); }
+    50% { box-shadow: 0 0 25px rgba(0, 243, 255, 1); filter: brightness(1.3); }
+    100% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.6); filter: brightness(1); }
+}
+
+/* 修正 contains 在某些瀏覽器的兼容問題，確保選擇器能抓到 */
+[data-tier="diamond"] {
+    border-color: #00f3ff !important;
+    color: #00f3ff !important;
+}
+/* =========================================================
+   ▼▼▼ 鑽石會員專屬：高飽和度電競藍 (Clear Diamond) ▼▼▼
+   ========================================================= */
+
+/* 1. 強化右上角 [鑽石會員] 標籤 - 移除模糊，強化飽和度 */
+.user-info-btn .user-role.tier-diamond {
+    /* 移除透明度，改用極致飽和的顏色 */
+    background: #00f3ff !important; 
+    color: #000000 !important; /* 黑字在亮藍底最清晰 */
+    
+    /* 移除背景模糊，改用實心 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* 文字與形狀強化 */
+    padding: 3px 10px !important;
+    border-radius: 2px !important;
+    font-weight: 900 !important;
+    text-shadow: none !important;
+    
+    /* 特效：深藍色發光，讓它跳出黑色背景 */
+    box-shadow: 0 0 20px #00f3ff, 0 0 40px rgba(0, 243, 255, 0.4) !important;
+    border: none !important;
+    
+    /* 移除之前的 text-fill 與 clip，這是造成霧霧的主因 */
+    background-clip: padding-box !important;
+    -webkit-background-clip: padding-box !important;
+    -webkit-text-fill-color: #000 !important;
+    
+    animation: diamond-pulse-intense 1.5s infinite;
+}
+
+/* 2. 鑽石等級專屬動畫 (更有力量的縮放閃爍) */
+@keyframes diamond-pulse-intense {
+    0% { transform: scale(1); box-shadow: 0 0 15px #00f3ff; }
+    50% { transform: scale(1.1); box-shadow: 0 0 30px #00f3ff, 0 0 50px rgba(0, 243, 255, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 15px #00f3ff; }
+}
+
+/* 3. 當滑鼠移到右上角會員按鈕時，整體亮度提升 */
+.user-info-btn:hover {
+    background: rgba(0, 243, 255, 0.2) !important;
+    border-color: #00f3ff !important;
+}
+/* =========================================================
+   ▼▼▼ 最終統合版：高對比 Neon 標籤 (解決重複與霧感問題) ▼▼▼
+   ========================================================= */
+
+/* 1. 底層容器：負責整體的毛玻璃背景與定位 */
+.user-info-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    background: rgba(10, 10, 15, 0.8) !important; /* 加深底色，讓發光更明顯 */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* 這裡才是毛玻璃作用的地方 */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    margin: 0 10px;
+}
+
+.user-info-btn:hover {
+    border-color: #00f3ff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+}
+
+.user-info-btn .user-name {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #ffffff !important;
+    margin-bottom: 4px;
+}
+
+/* 2. 頂層標籤：實心、高飽和度、無模糊、高對比 */
+.user-info-btn .user-role {
+    /* 核心：移除所有濾鏡與透明度，確保字體銳利 */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-image: none !important;
+    
+    padding: 3px 10px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    font-size: 13px !important;
+    display: inline-block !important;
+    border: none !important;
+    text-shadow: none !important;
+}
+
+/* --- 階級顏色分配 (亮底黑字最清晰) --- */
+
+/* 黃金：亮金配黑字 */
+.tier-gold { 
+    background: #FFD700 !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 15px #FFD700 !important; 
+}
+
+/* 鑽石：電磁亮藍配黑字 */
+.tier-diamond { 
+    background: #00f3ff !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 20px #00f3ff !important; 
+    animation: tier-pulse-diamond 2s infinite !important;
+}
+
+/* 傳說：赤紅雷射配白字 (深色配白字) */
+.tier-legend { 
+    background: #ff0055 !important; 
+    color: #ffffff !important; 
+    box-shadow: 0 0 20px #ff0055 !important; 
+    animation: tier-pulse-legend 1.5s infinite !important;
+}
+
+/* 管理員：螢光強綠 */
+.tier-admin { 
+    background: #39ff14 !important; 
+    color: #000000 !important; 
+    box-shadow: 0 0 15px #39ff14 !important; 
+}
+
+/* --- 呼吸動畫設定 --- */
+@keyframes tier-pulse-diamond {
+    0%, 100% { transform: scale(1); filter: brightness(1); box-shadow: 0 0 15px #00f3ff; }
+    50% { transform: scale(1.05); filter: brightness(1.2); box-shadow: 0 0 30px #00f3ff; }
+}
+
+@keyframes tier-pulse-legend {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 15px #ff0055; }
+    50% { transform: scale(1.1); box-shadow: 0 0 35px #ff0055; }
+}
+
+/* 齒輪旋轉動畫 */
+.admin-gear-btn {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.admin-gear-btn:hover {
+    transform: scale(1.2) rotate(90deg);
+}
+/* =========================================================
+   ▼▼▼ 小於 1024px 全域置中佈局修正 ▼▼▼
+   ========================================================= */
+@media (max-width: 1024px) {
+    /* 1. 頂部 Bar 置中 */
+    .top-bar {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 20px !important;
+    }
+
+    /* 2. 右上角用戶區塊置中 */
+    .user-section {
+        width: 100% !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* 3. 調整主容器順序：導航在內容之上 */
+    .main-content-wrapper {
+        display: flex !important;
+        flex-direction: column !important; /* 垂直堆疊 */
+        align-items: center !important;    /* 核心：所有內容水平置中 */
+        gap: 25px !important;
+    }
+
+    /* 4. 側邊導航按鈕 (手機/平板版) */
+    .side-nav-right {
+        order: 1 !important; /* 強制在第一個順位 (個人資料下方) */
+        width: 100% !important;
+        max-width: 600px;    /* 限制按鈕群寬度不要太散 */
+        flex-direction: row !important; /* 按鈕橫向排開 */
+        flex-wrap: wrap !important;     /* 自動換行 */
+        justify-content: center !important; /* 按鈕水平置中 */
+        position: static !important;
+        gap: 12px !important;
+        padding: 10px 0;
+    }
+
+    .nav-btn {
+        flex: 0 1 auto !important; /* 寬度根據文字調整 */
+        min-width: 120px;
+        padding: 12px 15px !important;
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+
+    /* 5. 主要內容卡片區塊置中 */
+    .main-content-wrapper .card {
+        order: 2 !important; /* 排在導航下方 */
+        width: 100% !important;
+        max-width: 900px;    /* 保持內容易讀寬度 */
+        margin: 0 auto !important;
+        text-align: center !important; /* 卡片內文字預設置中 */
+    }
+
+    /* 6. 確保卡片內的列表或輸入框維持水平置中 */
+    .input-group {
+        text-align: left !important; /* 輸入框標題還是靠左比較好填寫 */
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* 針對極小螢幕 (480px) 的微調 */
+@media (max-width: 480px) {
+    .nav-btn {
+        width: calc(50% - 10px); /* 一排兩個按鈕 */
+        min-width: 0;
+        font-size: 14px !important;
+    }
+}
+
+
+
+
